@@ -42,14 +42,20 @@
           </div>
           <div class="hero-proof"><div class="avatar-stack"><span>🌿</span><span>🏔️</span><span>🛶</span></div><div><strong>8 remarkable states</strong><small>One unforgettable region</small></div><div class="proof-divider"></div><div><strong>From ₹1,200/day</strong><small>Realistic local budgets</small></div></div>
         </div>
-        <div class="hero-art">
-          <picture class="hero-picture">
-            <source media="(max-width: 650px)" srcset="/assets/images/destinations/ziro-valley-hero-mobile.webp" type="image/webp" />
-            <img src="/assets/images/destinations/ziro-valley.webp" srcset="/assets/images/destinations/ziro-valley.webp 1600w" sizes="(max-width: 650px) 100vw, 52vw" alt="Terraced Apatani rice paddies in Ziro Valley, Arunachal Pradesh" fetchpriority="high" decoding="async" />
-          </picture>
-          <div class="hero-image-shade"></div>
-          <div class="floating-note"><span class="note-icon">✦</span><div><small>THE ROAD LESS TRAVELLED</small><strong>Somewhere between<br />clouds and calm.</strong></div></div>
-          <div class="image-caption"><span class="caption-dot"></span><span class="caption-location">Ziro Valley, Arunachal Pradesh · 27.5° N</span><span class="hero-photo-credit">Photo: <a href="https://commons.wikimedia.org/wiki/File:Apatani_Rice_Paddies.jpg" target="_blank" rel="noopener noreferrer">Kuntal Narayan Chaudhuri</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-SA 4.0</a> · resized to WebP</span></div>
+        <div class="hero-art" id="hero-slideshow" role="region" aria-roledescription="carousel" aria-label="North East destinations">
+          <div class="hero-slide-images" aria-hidden="true">
+            <img id="hero-image-a" class="hero-slide-image is-active" alt="" decoding="async" fetchpriority="high" />
+            <img id="hero-image-b" class="hero-slide-image" alt="" decoding="async" />
+          </div>
+          <div class="hero-image-shade" aria-hidden="true"></div>
+          <button class="hero-slide-open" id="hero-slide-open" type="button" aria-label="Open destination details"></button>
+          <div class="floating-note" aria-live="polite"><span class="note-icon">✦</span><div><small>THE ROAD LESS TRAVELLED</small><strong id="hero-slide-quote">A little mist, a lot of character.</strong></div></div>
+          <div class="image-caption"><span class="caption-dot"></span><span class="caption-location" id="hero-slide-location">Shillong · Meghalaya</span><span class="hero-photo-credit" id="hero-slide-credit"></span></div>
+          <div class="hero-slide-controls" aria-label="Slideshow controls">
+            <button class="hero-slide-arrow" id="hero-slide-prev" type="button" aria-label="Previous destination">‹</button>
+            <div class="hero-slide-dots" id="hero-slide-dots" role="group" aria-label="Choose a destination"></div>
+            <button class="hero-slide-arrow" id="hero-slide-next" type="button" aria-label="Next destination">›</button>
+          </div>
         </div>
         <div class="hero-bottom"><span>EXPLORE YOUR WAY</span><div></div><span>SCROLL TO DISCOVER <span class="down-arrow">↓</span></span></div>
       </section>
