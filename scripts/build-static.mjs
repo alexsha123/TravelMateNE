@@ -81,44 +81,54 @@ function makeBrowserConfig(url, publishableKey) {
 function makeReleaseHtml(html) {
   const accountSettings =
     /\s*<section class="account-settings" id="account-settings"[\s\S]*?<\/section>/;
-  if (!accountSettings.test(html))
-    throw new Error(
-      "Could not locate experimental account settings in index.html.",
-    );
   html = html.replace(accountSettings, "");
+
   const modalStart = html.indexOf(
     '    <div class="modal-backdrop account-delete-backdrop" id="delete-account-modal"',
   );
-  const modalEnd = html.indexOf('    <div id="app-notice"', modalStart);
-  if (modalStart < 0 || modalEnd < 0)
-    throw new Error(
-      "Could not locate experimental account deletion modal in index.html.",
-    );
-  return html.slice(0, modalStart) + html.slice(modalEnd);
+  if (modalStart >= 0) {
+    const modalEnd = html.indexOf('    <div id="app-notice"', modalStart);
+    if (modalEnd < 0)
+      throw new Error(
+        "Could not safely remove the experimental account deletion modal from index.html.",
+      );
+    html = html.slice(0, modalStart) + html.slice(modalEnd);
+  }
+
+  if (/delete-account|account-delete|account-settings/.test(html))
+    throw new Error("Account deletion markup remains in release index.html.");
+  return html;
 }
 
 function makeReleaseStyles(css) {
   const deletionStyles = css.indexOf(".account-settings{");
-  const followingStyles = css.indexOf(
-    ".hero-art{isolation:isolate}",
-    deletionStyles,
-  );
-  if (deletionStyles < 0 || followingStyles < 0)
-    throw new Error(
-      "Could not locate experimental account deletion styles in styles.css.",
+  if (deletionStyles >= 0) {
+    const followingStyles = css.indexOf(
+      ".hero-art{isolation:isolate}",
+      deletionStyles,
     );
-  return css.slice(0, deletionStyles) + css.slice(followingStyles);
+    css =
+      followingStyles >= 0
+        ? css.slice(0, deletionStyles) + css.slice(followingStyles)
+        : css.slice(0, deletionStyles);
+  }
+
+  if (/account-settings|account-delete|delete-account/.test(css))
+    throw new Error("Account deletion styles remain in release styles.css.");
+  return css;
 }
 
 function makeReleaseApp(app) {
   app = app.replace(/^let deleteAccountRequestInProgress = false;\n/m, "");
   const deletionStart = app.indexOf("function openDeleteAccount()");
-  const deletionEnd = app.indexOf("function setTripsMessage", deletionStart);
-  if (deletionStart < 0 || deletionEnd < 0)
-    throw new Error(
-      "Could not locate experimental account deletion handlers in app.js.",
-    );
-  app = app.slice(0, deletionStart) + app.slice(deletionEnd);
+  if (deletionStart >= 0) {
+    const deletionEnd = app.indexOf("function setTripsMessage", deletionStart);
+    if (deletionEnd < 0)
+      throw new Error(
+        "Could not safely remove the experimental account deletion handlers from app.js.",
+      );
+    app = app.slice(0, deletionStart) + app.slice(deletionEnd);
+  }
   app = app.replace(/^\s*\$\('#delete-account-open'\)[^\n]*\n/m, "\n");
   app = app.replace("closeAuth();closeDeleteAccount();", "closeAuth();");
   app = app.replace(
@@ -129,7 +139,12 @@ function makeReleaseApp(app) {
     "if(!$('#delete-account-modal').hidden){closeDeleteAccount();return;}",
     "",
   );
-  if (app.includes("delete-account"))
+
+  if (
+    /delete-account|openDeleteAccount|closeDeleteAccount|deleteMyAccount|deleteAccountRequestInProgress/.test(
+      app,
+    )
+  )
     throw new Error("Account deletion code remains in release app.js.");
   return app;
 }
