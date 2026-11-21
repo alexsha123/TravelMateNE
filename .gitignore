@@ -7,6 +7,8 @@ supabase-config.js
 .vercel/
 dist/
 node_modules/
+test-results/
+playwright-report/
 
 # Local/system state.
 .DS_Store

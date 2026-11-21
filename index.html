@@ -6,11 +6,12 @@
     <meta name="theme-color" content="#163d32" />
     <meta name="description" content="Find your kind of Northeast India. Explore hidden gems and plan affordable trips across eight states." />
     <title>TravelMateNE — North East Tourism Explorer</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-    <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.css" />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" /></noscript>
+    <link rel="preload" as="image" href="/assets/images/destinations/shillong.webp" imagesrcset="/assets/images/destinations/shillong-hero-mobile.webp 960w, /assets/images/destinations/shillong.webp 1600w" imagesizes="(max-width: 650px) 100vw, 52vw" fetchpriority="high" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -19,15 +20,15 @@
         <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M4 24 13 8l5 9 3-5 7 12H4Z"/><path d="m10 24 6-8 5 8"/></svg></span>
         <span class="brand-name">travelmate<span>ne</span></span>
       </a>
-      <nav class="main-nav" aria-label="Main navigation">
-        <button class="nav-link active" data-tab="explore">Explore</button>
+      <nav class="main-nav" id="main-nav" aria-label="Main navigation">
+        <button class="nav-link active" data-tab="explore" aria-current="page">Explore</button>
         <button class="nav-link" data-tab="planner">Plan a trip</button>
         <button class="nav-link" data-tab="guide">Travel guide</button>
         <button class="nav-link" data-tab="trips">My trips</button>
       </nav>
       <a class="header-cta" href="#planner" data-go-tab="planner">Plan your escape <span>↗</span></a>
       <button class="auth-nav-button" id="auth-trigger" type="button">Sign in</button>
-      <button class="mobile-menu" aria-label="Open navigation">☰</button>
+      <button class="mobile-menu" type="button" aria-label="Open navigation" aria-controls="main-nav" aria-expanded="false">☰</button>
     </header>
 
     <main id="top">
@@ -44,7 +45,7 @@
         </div>
         <div class="hero-art" id="hero-slideshow" role="region" aria-roledescription="carousel" aria-label="North East destinations">
           <div class="hero-slide-images" aria-hidden="true">
-            <img id="hero-image-a" class="hero-slide-image is-active" alt="" decoding="async" fetchpriority="high" />
+            <img id="hero-image-a" class="hero-slide-image is-active" src="/assets/images/destinations/shillong.webp" srcset="/assets/images/destinations/shillong-hero-mobile.webp 960w, /assets/images/destinations/shillong.webp 1600w" sizes="(max-width: 650px) 100vw, 52vw" alt="" decoding="async" fetchpriority="high" />
             <img id="hero-image-b" class="hero-slide-image" alt="" decoding="async" />
           </div>
           <div class="hero-image-shade" aria-hidden="true"></div>
@@ -72,7 +73,7 @@
           <button class="all-destinations" data-go-tab="explore">Explore all places <span>↗</span></button>
         </div>
         <div class="filter-bar" id="explore-filters">
-          <label class="filter-search"><span>⌕</span><input id="search-input" type="search" placeholder="Search a place or state" aria-label="Search destinations" /></label>
+          <label class="filter-search"><span aria-hidden="true">⌕</span><input id="search-input" type="search" placeholder="Search a place or state" aria-label="Search destinations" maxlength="80" /></label>
           <label class="select-wrap"><span class="filter-label">STATE</span><select id="state-filter" aria-label="Filter by state"><option value="all">All eight states</option></select><span class="select-chevron">⌄</span></label>
           <label class="select-wrap"><span class="filter-label">TRAVEL VIBE</span><select id="vibe-filter" aria-label="Filter by travel vibe"><option value="all">Any kind of trip</option><option>Offbeat</option><option>Adventure</option><option>Culture</option><option>Wildlife</option><option>Budget</option><option>Food</option></select><span class="select-chevron">⌄</span></label>
           <label class="select-wrap"><span class="filter-label">BEST SEASON</span><select id="season-filter" aria-label="Filter by season"><option value="all">Any season</option><option>Spring</option><option>Summer</option><option>Monsoon</option><option>Autumn</option><option>Winter</option></select><span class="select-chevron">⌄</span></label>
@@ -106,7 +107,7 @@
       </section>
 
       <section class="guide-section" id="guide-section">
-        <div class="section-header guide-header"><div><span class="section-kicker">KNOW BEFORE YOU GO</span><h2>Ready for the real world.</h2><p>Helpful details for the roads, rules and rhythms of the North East.</p></div><div class="guide-destination-select"><span>DESTINATION</span><select id="guide-destination"></select><span class="select-chevron">⌄</span></div></div>
+        <div class="section-header guide-header"><div><span class="section-kicker">KNOW BEFORE YOU GO</span><h2>Ready for the real world.</h2><p>Helpful details for the roads, rules and rhythms of the North East.</p></div><div class="guide-destination-select"><span>DESTINATION</span><select id="guide-destination" aria-label="Choose a destination for the travel guide"></select><span class="select-chevron">⌄</span></div></div>
         <div class="guide-grid" id="guide-content"></div>
         <div class="culture-card" id="culture-content"></div>
         <p class="guide-disclaimer">Permit rules and travel conditions can change. Confirm current requirements with official state authorities before departure.</p>
@@ -120,14 +121,11 @@
     </main>
     <footer class="site-footer"><a class="brand footer-brand" href="#top"><span class="brand-mark"><svg viewBox="0 0 32 32"><path d="M4 24 13 8l5 9 3-5 7 12H4Z"/><path d="m10 24 6-8 5 8"/></svg></span><span class="brand-name">travelmate<span>ne</span></span></a><span>Made for the curious. Rooted in the North East. © 2026 TravelMateNE</span><a href="#top">Back to top ↑</a></footer>
     <section class="photo-credits" aria-labelledby="photo-credits-title"><details><summary id="photo-credits-title">Destination photography · credits & licenses</summary><ul id="photo-credit-list" class="photo-credit-list"></ul></details></section>
-    <div class="modal-backdrop" id="destination-modal" hidden><div class="destination-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title"><button class="modal-close" aria-label="Close destination details">×</button><div id="modal-content"></div></div></div>
-    <div class="itinerary-overlay" id="itinerary-overlay" hidden><div class="itinerary-sheet" id="itinerary-sheet"><button class="modal-close itinerary-close" aria-label="Close itinerary">×</button><div id="itinerary-content"></div></div></div>
-    <div class="modal-backdrop auth-backdrop" id="auth-modal" hidden><section class="auth-card" role="dialog" aria-modal="true" aria-labelledby="auth-title"><button class="modal-close auth-close" aria-label="Close sign in">×</button><span class="section-kicker">YOUR TRAVELMATE ACCOUNT</span><h2 id="auth-title">Welcome back.</h2><p class="auth-intro">Sign in to keep your favourite places and trip plans together.</p><div class="auth-mode-switch"><button type="button" id="auth-login-mode" class="active">Sign in</button><button type="button" id="auth-signup-mode">Create account</button></div><form id="auth-form"><label class="form-field auth-name-field" id="auth-name-wrap" hidden><span>Your name</span><input id="auth-name" type="text" autocomplete="name" maxlength="80" /></label><label class="form-field"><span>Email</span><input id="auth-email" type="email" autocomplete="email" required /></label><label class="form-field"><span>Password</span><input id="auth-password" type="password" autocomplete="current-password" minlength="8" required /></label><p class="auth-message" id="auth-message" role="status" aria-live="polite"></p><button class="button button-primary auth-submit" id="auth-submit" type="submit">Sign in</button></form><div class="auth-divider" aria-hidden="true"><span>OR</span></div><button class="auth-google-button" id="auth-google" type="button"><svg aria-hidden="true" viewBox="0 0 48 48"><path fill="#4285F4" d="M43.6 24.5c0-1.4-.1-2.8-.4-4.1H24v7.8h11a9.4 9.4 0 0 1-4.1 6.2v5.1h6.6c3.9-3.6 6.1-8.9 6.1-15Z"/><path fill="#34A853" d="M24 44c5.5 0 10.1-1.8 13.5-4.8l-6.6-5.1c-1.8 1.2-4.1 2-6.9 2-5.3 0-9.8-3.6-11.4-8.4H5.8v5.3A20 20 0 0 0 24 44Z"/><path fill="#FBBC05" d="M12.6 27.7a12 12 0 0 1 0-7.4V15H5.8a20 20 0 0 0 0 18l6.8-5.3Z"/><path fill="#EA4335" d="M24 12.1c3 0 5.7 1 7.8 3.1l5.8-5.8C34.1 6.1 29.5 4 24 4A20 20 0 0 0 5.8 15l6.8 5.3c1.6-4.8 6.1-8.2 11.4-8.2Z"/></svg><span>Continue with Google</span></button><p class="auth-security-note">Your data is protected by your Supabase project’s existing row-level security policies.</p></section></div>
+    <div class="modal-backdrop" id="destination-modal" hidden><div class="destination-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" tabindex="-1"><button class="modal-close" aria-label="Close destination details">×</button><div id="modal-content"></div></div></div>
+    <div class="itinerary-overlay" id="itinerary-overlay" hidden><div class="itinerary-sheet" id="itinerary-sheet" role="dialog" aria-modal="true" aria-labelledby="itinerary-title" tabindex="-1"><button class="modal-close itinerary-close" aria-label="Close itinerary">×</button><div id="itinerary-content"></div></div></div>
+    <div class="modal-backdrop auth-backdrop" id="auth-modal" hidden><section class="auth-card" role="dialog" aria-modal="true" aria-labelledby="auth-title" tabindex="-1"><button class="modal-close auth-close" aria-label="Close sign in">×</button><span class="section-kicker">YOUR TRAVELMATE ACCOUNT</span><h2 id="auth-title">Welcome back.</h2><p class="auth-intro">Sign in to keep your favourite places and trip plans together.</p><div class="auth-mode-switch"><button type="button" id="auth-login-mode" class="active">Sign in</button><button type="button" id="auth-signup-mode">Create account</button></div><form id="auth-form"><label class="form-field auth-name-field" id="auth-name-wrap" hidden><span>Your name</span><input id="auth-name" type="text" autocomplete="name" maxlength="80" /></label><label class="form-field"><span>Email</span><input id="auth-email" type="email" autocomplete="email" required /></label><label class="form-field"><span>Password</span><input id="auth-password" type="password" autocomplete="current-password" minlength="8" required /></label><p class="auth-message" id="auth-message" role="status" aria-live="polite"></p><button class="button button-primary auth-submit" id="auth-submit" type="submit">Sign in</button></form><div class="auth-divider" aria-hidden="true"><span>OR</span></div><button class="auth-google-button" id="auth-google" type="button"><svg aria-hidden="true" viewBox="0 0 48 48"><path fill="#4285F4" d="M43.6 24.5c0-1.4-.1-2.8-.4-4.1H24v7.8h11a9.4 9.4 0 0 1-4.1 6.2v5.1h6.6c3.9-3.6 6.1-8.9 6.1-15Z"/><path fill="#34A853" d="M24 44c5.5 0 10.1-1.8 13.5-4.8l-6.6-5.1c-1.8 1.2-4.1 2-6.9 2-5.3 0-9.8-3.6-11.4-8.4H5.8v5.3A20 20 0 0 0 24 44Z"/><path fill="#FBBC05" d="M12.6 27.7a12 12 0 0 1 0-7.4V15H5.8a20 20 0 0 0 0 18l6.8-5.3Z"/><path fill="#EA4335" d="M24 12.1c3 0 5.7 1 7.8 3.1l5.8-5.8C34.1 6.1 29.5 4 24 4A20 20 0 0 0 5.8 15l6.8 5.3c1.6-4.8 6.1-8.2 11.4-8.2Z"/></svg><span>Continue with Google</span></button><p class="auth-security-note">Your data is protected by your Supabase project’s existing row-level security policies.</p></section></div>
     <div id="app-notice" class="app-notice" role="status" aria-live="polite" hidden></div>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    <script src="https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.js"></script>
-    <script src="https://unpkg.com/@maplibre/maplibre-gl-leaflet@0.1.3/leaflet-maplibre-gl.js"></script>
     <script src="supabase-config.js"></script>
-    <script src="app.js"></script>
+    <script type="module" src="app.js"></script>
   </body>
 </html>

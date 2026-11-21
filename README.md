@@ -37,6 +37,15 @@ Supabase is optional for the explorer: without a local config, or if destination
 
 Trip planning is rule-based and does not use a live AI model, traffic, bookings, or road-status feed. Travel times, permits, and local prices can change; confirm current details with official authorities and local operators before travel. Leaflet, MapLibre, OpenFreeMap styles, and map tiles require an internet connection. OpenFreeMap provides its public tiles “as is” without an SLA; the map displays a fallback notice if tiles fail while leaving the location pins available.
 
+## Automated tests
+
+Install the development dependencies with `npm install`. Run the JavaScript unit tests with `npm test`; run the browser suite with `npm run test:e2e`. The Playwright suite starts a local HTTP server automatically and needs Chromium installed (`npx playwright install chromium` on a new machine). `npm run test:all` runs both suites.
+
+Coverage includes destination search and filters, navigation and destination details, planner route/cost totals and warnings, both trip presets, slideshow timing/manual controls/reduced motion, mobile layout and accessible controls, authentication error handling, favorites, saved plans, and account isolation. Supabase browser interactions use an in-memory test double with synthetic `example.test` identities and disposable rows; external HTTPS requests are blocked. The security tests check that test double's authenticated-owner behavior and unauthenticated rejection. They do not connect to Supabase/Postgres and are not proof that the deployed RLS policies are configured correctly; run the separate read-only `supabase/audit-rls.sql` against the intended project for policy inspection.
+
+The account-deletion UI and Edge Function are excluded from these suites and remain untested. The production build also strips the account-deletion UI, handlers, and styles from `dist/`; the local source and Edge Function remain available for later testing, but the build does not deploy the function. No real accounts or production data are used by the tests. Playwright artifacts are written under ignored `test-results/` and `playwright-report/` directories.
+
+Latest local verification: `npm run test:all` passed (3 Vitest unit tests and 21 Playwright browser tests). `npm run lint`, `npm run format:check`, and `npm run build` passed. Desktop and mobile Lighthouse plus axe-core results, security scope, before/after measurements, and remaining limitations are documented in [docs/quality-audit.md](docs/quality-audit.md). Live Supabase RLS enforcement, real map tile availability under all networks, and non-Chromium browsers remain outside this automated run.
 
 ## Deploy to Vercel
 

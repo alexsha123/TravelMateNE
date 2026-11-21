@@ -1,0 +1,28 @@
+{
+  "name": "travelmatene",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "test:all": "npm test && npm run test:e2e",
+    "build": "node scripts/build-static.mjs",
+    "lint": "eslint app.js planner-rules.mjs scripts tests/e2e tests/unit *.config.js",
+    "format:check": "prettier --check eslint.config.js playwright.config.js vitest.config.js planner-rules.mjs scripts/build-static.mjs scripts/run-lighthouse.mjs tests/e2e tests/unit README.md docs/quality-audit.md",
+    "test:a11y": "playwright test tests/e2e/accessibility.spec.js",
+    "audit:lighthouse:desktop": "node scripts/run-lighthouse.mjs desktop",
+    "audit:lighthouse:mobile": "node scripts/run-lighthouse.mjs mobile"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.65.1",
+    "axe-core": "^4.14.1",
+    "eslint": "^10.15.0",
+    "globals": "^17.14.0",
+    "lighthouse": "^13.6.0",
+    "prettier": "^3.10.1",
+    "vitest": "^5.1.1"
+  }
+}
