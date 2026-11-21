@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#163d32" />
+    <meta name="description" content="Find your kind of Northeast India. Explore hidden gems and plan affordable trips across eight states." />
+    <title>TravelMateNE — North East Tourism Explorer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.css" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="TravelMateNE home">
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M4 24 13 8l5 9 3-5 7 12H4Z"/><path d="m10 24 6-8 5 8"/></svg></span>
+        <span class="brand-name">travelmate<span>ne</span></span>
+      </a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <button class="nav-link active" data-tab="explore">Explore</button>
+        <button class="nav-link" data-tab="planner">Plan a trip</button>
+        <button class="nav-link" data-tab="guide">Travel guide</button>
+        <button class="nav-link" data-tab="trips">My trips</button>
+      </nav>
+      <a class="header-cta" href="#planner" data-go-tab="planner">Plan your escape <span>↗</span></a>
+      <button class="auth-nav-button" id="auth-trigger" type="button">Sign in</button>
+      <button class="mobile-menu" aria-label="Open navigation">☰</button>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div class="hero-copy">
+          <div class="eyebrow"><span class="eyebrow-line"></span> YOUR NEXT GREAT ESCAPE</div>
+          <h1>Find your kind<br />of <em>North East.</em></h1>
+          <p class="hero-description">Eight states. A thousand stories. Find a place that feels like yours — and plan a trip that fits your budget.</p>
+          <div class="hero-actions">
+            <button class="button button-primary" data-go-tab="explore">Explore destinations <span>→</span></button>
+            <button class="text-button" data-go-tab="planner"><span class="play-icon">▶</span> Plan a trip</button>
+          </div>
+          <div class="hero-proof"><div class="avatar-stack"><span>🌿</span><span>🏔️</span><span>🛶</span></div><div><strong>8 remarkable states</strong><small>One unforgettable region</small></div><div class="proof-divider"></div><div><strong>From ₹1,200/day</strong><small>Realistic local budgets</small></div></div>
+        </div>
+        <div class="hero-art">
+          <picture class="hero-picture">
+            <source media="(max-width: 650px)" srcset="/assets/images/destinations/ziro-valley-hero-mobile.webp" type="image/webp" />
+            <img src="/assets/images/destinations/ziro-valley.webp" srcset="/assets/images/destinations/ziro-valley.webp 1600w" sizes="(max-width: 650px) 100vw, 52vw" alt="Terraced Apatani rice paddies in Ziro Valley, Arunachal Pradesh" fetchpriority="high" decoding="async" />
+          </picture>
+          <div class="hero-image-shade"></div>
+          <div class="floating-note"><span class="note-icon">✦</span><div><small>THE ROAD LESS TRAVELLED</small><strong>Somewhere between<br />clouds and calm.</strong></div></div>
+          <div class="image-caption"><span class="caption-dot"></span><span class="caption-location">Ziro Valley, Arunachal Pradesh · 27.5° N</span><span class="hero-photo-credit">Photo: <a href="https://commons.wikimedia.org/wiki/File:Apatani_Rice_Paddies.jpg" target="_blank" rel="noopener noreferrer">Kuntal Narayan Chaudhuri</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-SA 4.0</a> · resized to WebP</span></div>
+        </div>
+        <div class="hero-bottom"><span>EXPLORE YOUR WAY</span><div></div><span>SCROLL TO DISCOVER <span class="down-arrow">↓</span></span></div>
+      </section>
+
+      <section class="quick-plans" aria-label="Quick trip ideas">
+        <div class="quick-heading"><span class="section-kicker">A LITTLE INSPIRATION</span><h2>Good trips start here.</h2><p>Pick a plan and make it your own.</p></div>
+        <button class="preset-card preset-shillong" data-preset="shillong"><span class="preset-icon">↗</span><span class="preset-tag">WEEKEND ESCAPE · 3 DAYS</span><strong>Guwahati → Shillong → Dawki</strong><span class="preset-bottom"><span>Waterfalls, cafés & crystal rivers</span><b>Under ₹8,000 <span>→</span></b></span></button>
+        <button class="preset-card preset-ziro" data-preset="ziro"><span class="preset-icon">↗</span><span class="preset-tag">CULTURE TRAIL · 5 DAYS</span><strong>Find your rhythm in Ziro Valley</strong><span class="preset-bottom"><span>Apatani culture & pine-scented trails</span><b>Explore plan <span>→</span></b></span></button>
+      </section>
+
+      <section class="content-section" id="explore-section">
+        <div class="section-header">
+          <div><span class="section-kicker">THE NORTH EAST, YOUR WAY</span><h2>Places with a point of view.</h2><p>From cloud-kissed trails to slow river days, find what moves you.</p></div>
+          <button class="all-destinations" data-go-tab="explore">Explore all places <span>↗</span></button>
+        </div>
+        <div class="filter-bar" id="explore-filters">
+          <label class="filter-search"><span>⌕</span><input id="search-input" type="search" placeholder="Search a place or state" aria-label="Search destinations" /></label>
+          <label class="select-wrap"><span class="filter-label">STATE</span><select id="state-filter" aria-label="Filter by state"><option value="all">All eight states</option></select><span class="select-chevron">⌄</span></label>
+          <label class="select-wrap"><span class="filter-label">TRAVEL VIBE</span><select id="vibe-filter" aria-label="Filter by travel vibe"><option value="all">Any kind of trip</option><option>Offbeat</option><option>Adventure</option><option>Culture</option><option>Wildlife</option><option>Budget</option><option>Food</option></select><span class="select-chevron">⌄</span></label>
+          <label class="select-wrap"><span class="filter-label">BEST SEASON</span><select id="season-filter" aria-label="Filter by season"><option value="all">Any season</option><option>Spring</option><option>Summer</option><option>Monsoon</option><option>Autumn</option><option>Winter</option></select><span class="select-chevron">⌄</span></label>
+        </div>
+        <div class="active-filters"><span id="result-count">Showing 12 destinations</span><button id="clear-filters" class="clear-filter">Clear filters</button><div class="filter-chips" id="filter-chips"></div></div>
+        <section class="map-shell" aria-labelledby="map-title">
+          <div class="map-shell-head"><div><span class="section-kicker">A REGION TO WANDER</span><h3 id="map-title">See where the road takes you.</h3></div><span class="map-count"><i></i> 12 DESTINATIONS</span></div>
+          <div class="map-layout"><div id="destination-map" role="application" aria-label="Map of twelve destinations across Northeast India"></div><aside class="map-route-card"><span class="section-kicker">YOUR ITINERARY PATH</span><h4 id="map-route-title">Your trip will appear here.</h4><p id="map-route-note">Build a plan to see its destination sequence. Dotted connectors show order only, not driving routes.</p><ol id="map-itinerary-sequence" class="map-sequence"></ol><span class="map-key"><i class="sequence-line"></i> Destination order · not a road route</span></aside></div>
+          <div class="map-footer"><span>Map tiles <a href="https://openfreemap.org/" target="_blank" rel="noopener">OpenFreeMap</a> · © <a href="https://www.openmaptiles.org/" target="_blank" rel="noopener">OpenMapTiles</a> · data <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap</a></span><span>Typical locations · verify routes and road access locally</span></div>
+        </section>
+        <div class="destination-grid" id="destination-grid"></div>
+        <div class="empty-state" id="empty-state" hidden><span>⌕</span><h3>No places found</h3><p>Try a different state, vibe or season.</p><button class="button button-outline" id="empty-clear">Clear all filters</button></div>
+      </section>
+
+      <section class="planner-section" id="planner-section">
+        <div class="planner-intro"><span class="section-kicker light-kicker">LESS GUESSWORK, MORE GOING</span><h2>A trip that fits<br />your <em>real life.</em></h2><p>Set your budget, tell us what you love. We’ll map out a doable day-by-day plan, with the costs to match.</p><div class="planner-promise"><span>✓</span> Practical routes & local cost estimates</div><div class="planner-promise"><span>✓</span> Permits and seasonal notes included</div><div class="planner-promise"><span>✓</span> Your plan, ready to print and go</div><div class="leaf-decoration">✳</div></div>
+        <div class="planner-panel" id="planner">
+          <div class="planner-panel-head"><div><span class="section-kicker">YOUR ADVENTURE STARTS HERE</span><h3>Build your trip</h3></div><span class="step-pill"><span class="step-dot"></span> 1 MIN SETUP</span></div>
+          <form id="planner-form">
+            <div class="form-grid">
+              <label class="form-field"><span>Starting hub</span><select id="hub-input"><option>Guwahati</option><option>Bagdogra</option><option>Dibrugarh</option><option>Imphal</option></select></label>
+              <label class="form-field"><span>Travel month</span><select id="month-input"><option>January</option><option>February</option><option>March</option><option>April</option><option>May</option><option>June</option><option>July</option><option>August</option><option>September</option><option>October</option><option>November</option><option>December</option></select></label>
+              <label class="form-field"><span>Trip duration</span><span class="input-suffix"><select id="duration-input"><option>2</option><option>3</option><option>4</option><option selected>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select><small>days</small></span></label>
+              <label class="form-field"><span>Total budget (per person)</span><span class="input-prefix"><i>₹</i><input id="budget-input" type="number" min="2500" step="500" value="12000" /></span></label>
+            </div>
+            <fieldset class="interest-field"><legend>What are you in the mood for?</legend><div class="interest-options"><label><input type="checkbox" value="Adventure" checked><span>⛰ Adventure</span></label><label><input type="checkbox" value="Culture"><span>◉ Culture</span></label><label><input type="checkbox" value="Wildlife"><span>❋ Wildlife</span></label><label><input type="checkbox" value="Food"><span>♨ Food</span></label><label><input type="checkbox" value="Offbeat"><span>✦ Offbeat</span></label></div></fieldset>
+            <button class="button button-primary generate-button" type="submit"><span>✧</span> Generate my itinerary <span class="button-arrow">→</span></button>
+            <p class="planner-footnote"><span>◉</span> Rule-based price estimates · no live traffic, bookings or AI model</p>
+          </form>
+        </div>
+      </section>
+
+      <section class="guide-section" id="guide-section">
+        <div class="section-header guide-header"><div><span class="section-kicker">KNOW BEFORE YOU GO</span><h2>Ready for the real world.</h2><p>Helpful details for the roads, rules and rhythms of the North East.</p></div><div class="guide-destination-select"><span>DESTINATION</span><select id="guide-destination"></select><span class="select-chevron">⌄</span></div></div>
+        <div class="guide-grid" id="guide-content"></div>
+        <div class="culture-card" id="culture-content"></div>
+        <p class="guide-disclaimer">Permit rules and travel conditions can change. Confirm current requirements with official state authorities before departure.</p>
+      </section>
+      <section class="content-section trips-section" id="trips-section">
+        <div class="section-header"><div><span class="section-kicker">YOUR JOURNEYS, KEPT CLOSE</span><h2>My trips.</h2><p>Saved plans stay private to your account.</p></div></div>
+        <div class="trips-message" id="trips-message" role="status">Sign in to save and revisit your itineraries.</div>
+        <div class="saved-trips-grid" id="saved-trips-grid"></div>
+      </section>
+      <section class="closing-banner"><div><span class="section-kicker light-kicker">THE HILLS ARE CALLING</span><h2>Make room for wonder.</h2><p>Let’s find the trip you’ll be talking about for years.</p></div><button class="button button-light" data-go-tab="planner">Plan my North East trip <span>→</span></button><span class="closing-flower">✳</span></section>
+    </main>
+    <footer class="site-footer"><a class="brand footer-brand" href="#top"><span class="brand-mark"><svg viewBox="0 0 32 32"><path d="M4 24 13 8l5 9 3-5 7 12H4Z"/><path d="m10 24 6-8 5 8"/></svg></span><span class="brand-name">travelmate<span>ne</span></span></a><span>Made for the curious. Rooted in the North East. © 2026 TravelMateNE</span><a href="#top">Back to top ↑</a></footer>
+    <section class="photo-credits" aria-labelledby="photo-credits-title"><details><summary id="photo-credits-title">Destination photography · credits & licenses</summary><ul id="photo-credit-list" class="photo-credit-list"></ul></details></section>
+    <div class="modal-backdrop" id="destination-modal" hidden><div class="destination-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title"><button class="modal-close" aria-label="Close destination details">×</button><div id="modal-content"></div></div></div>
+    <div class="itinerary-overlay" id="itinerary-overlay" hidden><div class="itinerary-sheet" id="itinerary-sheet"><button class="modal-close itinerary-close" aria-label="Close itinerary">×</button><div id="itinerary-content"></div></div></div>
+    <div class="modal-backdrop auth-backdrop" id="auth-modal" hidden><section class="auth-card" role="dialog" aria-modal="true" aria-labelledby="auth-title"><button class="modal-close auth-close" aria-label="Close sign in">×</button><span class="section-kicker">YOUR TRAVELMATE ACCOUNT</span><h2 id="auth-title">Welcome back.</h2><p class="auth-intro">Sign in to keep your favourite places and trip plans together.</p><div class="auth-mode-switch"><button type="button" id="auth-login-mode" class="active">Sign in</button><button type="button" id="auth-signup-mode">Create account</button></div><form id="auth-form"><label class="form-field auth-name-field" id="auth-name-wrap" hidden><span>Your name</span><input id="auth-name" type="text" autocomplete="name" maxlength="80" /></label><label class="form-field"><span>Email</span><input id="auth-email" type="email" autocomplete="email" required /></label><label class="form-field"><span>Password</span><input id="auth-password" type="password" autocomplete="current-password" minlength="8" required /></label><p class="auth-message" id="auth-message" role="status" aria-live="polite"></p><button class="button button-primary auth-submit" id="auth-submit" type="submit">Sign in</button></form><div class="auth-divider" aria-hidden="true"><span>OR</span></div><button class="auth-google-button" id="auth-google" type="button"><svg aria-hidden="true" viewBox="0 0 48 48"><path fill="#4285F4" d="M43.6 24.5c0-1.4-.1-2.8-.4-4.1H24v7.8h11a9.4 9.4 0 0 1-4.1 6.2v5.1h6.6c3.9-3.6 6.1-8.9 6.1-15Z"/><path fill="#34A853" d="M24 44c5.5 0 10.1-1.8 13.5-4.8l-6.6-5.1c-1.8 1.2-4.1 2-6.9 2-5.3 0-9.8-3.6-11.4-8.4H5.8v5.3A20 20 0 0 0 24 44Z"/><path fill="#FBBC05" d="M12.6 27.7a12 12 0 0 1 0-7.4V15H5.8a20 20 0 0 0 0 18l6.8-5.3Z"/><path fill="#EA4335" d="M24 12.1c3 0 5.7 1 7.8 3.1l5.8-5.8C34.1 6.1 29.5 4 24 4A20 20 0 0 0 5.8 15l6.8 5.3c1.6-4.8 6.1-8.2 11.4-8.2Z"/></svg><span>Continue with Google</span></button><p class="auth-security-note">Your data is protected by your Supabase project’s existing row-level security policies.</p></section></div>
+    <div id="app-notice" class="app-notice" role="status" aria-live="polite" hidden></div>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.js"></script>
+    <script src="https://unpkg.com/@maplibre/maplibre-gl-leaflet@0.1.3/leaflet-maplibre-gl.js"></script>
+    <script src="supabase-config.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

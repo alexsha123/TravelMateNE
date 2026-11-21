@@ -1,0 +1,13 @@
+# Local-only browser config; use Vercel build environment variables for deployment.
+supabase-config.js
+
+# Environment files and generated deploy output.
+.env
+.env.*
+.vercel/
+dist/
+node_modules/
+
+# Local/system state.
+.DS_Store
+supabase/.temp/
