@@ -1,0 +1,17 @@
+:root {
+  --forest: #173f33;
+  --forest-deep: #102f27;
+  --moss: #527464;
+  --sage: #e5eee8;
+  --mist: #edf1ed;
+  --cream: #f8f7f2;
+  --paper: #fffefa;
+  --ink: #202b26;
+  --muted: #59645d;
+  --line: #dfe4dd;
+  --terra: #9e5037;
+  --gold: #dfbd77;
+  --serif: "Playfair Display", Georgia, serif;
+  --sans: "DM Sans", Arial, sans-serif;
+  --shadow: 0 18px 48px rgba(29, 52, 41, 0.12);
+}

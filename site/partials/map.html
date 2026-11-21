@@ -1,0 +1,55 @@
+<section class="map-shell" aria-labelledby="map-title">
+  <div class="map-shell-head">
+    <div>
+      <span class="section-kicker">A REGION TO WANDER</span>
+      <h3 id="map-title">See where the road takes you.</h3>
+    </div>
+    <span class="map-count"><i></i> 12 DESTINATIONS</span>
+  </div>
+  <div class="map-layout">
+    <div class="map-canvas-wrap">
+      <div
+        id="destination-map"
+        role="region"
+        aria-label="Map of twelve destinations across Northeast India"
+        aria-busy="true"
+      ></div>
+      <p class="map-loading" id="map-loading" role="status">
+        Map tiles load as this section comes into view. Destination cards remain
+        available below.
+      </p>
+    </div>
+    <aside class="map-route-card">
+      <span class="section-kicker">YOUR ITINERARY PATH</span>
+      <h4 id="map-route-title">Your trip will appear here.</h4>
+      <p id="map-route-note">
+        Build a plan to see its destination sequence. Dotted connectors show
+        order only, not driving routes.
+      </p>
+      <ol id="map-itinerary-sequence" class="map-sequence"></ol>
+      <span class="map-key"
+        ><i class="sequence-line"></i> Destination order · not a road
+        route</span
+      >
+    </aside>
+  </div>
+  <div class="map-footer">
+    <span
+      >Map tiles
+      <a href="https://openfreemap.org/" target="_blank" rel="noopener"
+        >OpenFreeMap</a
+      >
+      · ©
+      <a href="https://www.openmaptiles.org/" target="_blank" rel="noopener"
+        >OpenMapTiles</a
+      >
+      · data
+      <a
+        href="https://www.openstreetmap.org/copyright"
+        target="_blank"
+        rel="noopener"
+        >© OpenStreetMap</a
+      ></span
+    ><span>Typical locations · verify routes and road access locally</span>
+  </div>
+</section>

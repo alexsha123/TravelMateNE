@@ -28,6 +28,22 @@ test.describe("destination discovery and navigation", () => {
     await expect(page.locator(".destination-card")).toHaveCount(1);
   });
 
+  test("search reports no matches and one reset clears all filters", async ({
+    page,
+  }) => {
+    await page.locator("#search-input").fill("not a real destination");
+    await expect(page.locator(".destination-card")).toHaveCount(0);
+    await expect(page.locator("#result-count")).toContainText(
+      "No destinations",
+    );
+    await expect(page.locator("#empty-detail")).toContainText(
+      "Try a shorter name",
+    );
+    await page.locator("#empty-clear").click();
+    await expect(page.locator(".destination-card")).toHaveCount(12);
+    await expect(page.locator("#search-input")).toHaveValue("");
+  });
+
   test("navigation changes the active section and destination cards open details", async ({
     page,
   }) => {
@@ -38,6 +54,29 @@ test.describe("destination discovery and navigation", () => {
     await expect(page.locator("#destination-modal")).toBeVisible();
     await expect(page.locator("#modal-title")).toHaveText("Ziro Valley");
     await expect(page.locator("#modal-content")).toContainText("Apatani");
+  });
+
+  test("ships five independent routes and keeps experimental deletion out of production", async ({
+    page,
+  }) => {
+    const pages = [
+      ["/index.html", "explore"],
+      ["/planner.html", "planner"],
+      ["/guide.html", "guide"],
+      ["/trips.html", "trips"],
+      ["/settings.html", "settings"],
+    ];
+    for (const [route, pageName] of pages) {
+      await page.goto(route);
+      await expect(page.locator("body")).toHaveAttribute("data-page", pageName);
+      await expect(page.locator("h1")).toHaveCount(1);
+      await expect(
+        page.locator('[data-tab="' + pageName + '"]'),
+      ).toHaveAttribute("aria-current", "page");
+      await expect(page.locator("body")).not.toContainText(
+        /delete my account/i,
+      );
+    }
   });
 });
 
@@ -80,6 +119,7 @@ test.describe("trip planning and presets", () => {
   });
 
   test("warns when duration or budget is inadequate", async ({ page }) => {
+    await page.goto("/planner.html");
     await page.locator("#hub-input").selectOption({ label: "Dibrugarh" });
     await page.locator('input[value="Culture"]').check({ force: true });
     await page.locator("#duration-input").selectOption("2");
@@ -157,18 +197,20 @@ test.describe("trip planning and presets", () => {
 });
 
 test.describe("slideshow", () => {
-  test.beforeEach(async ({ page }) => openApp(page));
-
-  test("shows 12 destinations, changes after five seconds and supports manual navigation", async ({
+  test("shows 12 destinations and advances at exactly three seconds", async ({
     page,
   }) => {
+    await openApp(page);
     await expect(page.locator("#hero-slide-dots button")).toHaveCount(12);
+    await page
+      .locator("#hero-image-a")
+      .evaluate((image) => image.decode().catch(() => {}));
     const first = await page.locator("#hero-slide-location").textContent();
-    await expect
-      .poll(() => page.locator("#hero-slide-location").textContent(), {
-        timeout: 6500,
-      })
-      .not.toBe(first);
+    await page.emulateMedia({ reducedMotion: "no-preference" });
+    await page.waitForTimeout(2700);
+    await expect(page.locator("#hero-slide-location")).toHaveText(first);
+    await page.waitForTimeout(450);
+    await expect(page.locator("#hero-slide-location")).not.toHaveText(first);
 
     const automatic = await page.locator("#hero-slide-location").textContent();
     await page.locator("#hero-slide-next").click();
@@ -196,10 +238,11 @@ test.describe("slideshow", () => {
   test("honors reduced motion and remains keyboard-operable", async ({
     page,
   }) => {
+    await openApp(page, { reducedMotion: "no-preference" });
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.reload();
     const initial = await page.locator("#hero-slide-location").textContent();
-    await page.waitForTimeout(5200);
+    await page.waitForTimeout(3500);
     await expect(page.locator("#hero-slide-location")).toHaveText(initial);
     await page.locator("#hero-slide-next").focus();
     await page.keyboard.press("ArrowRight");
@@ -208,9 +251,82 @@ test.describe("slideshow", () => {
       page.getByRole("button", { name: "Next destination" }),
     ).toBeVisible();
   });
+
+  test("manual interaction pauses autoplay before it resumes without duplicate timers", async ({
+    page,
+  }) => {
+    await openApp(page);
+    await page.emulateMedia({ reducedMotion: "no-preference" });
+    const initial = await page.locator("#hero-slide-location").textContent();
+    await page.locator("#hero-slide-next").click();
+    const selected = await page.locator("#hero-slide-location").textContent();
+    expect(selected).not.toBe(initial);
+    await page.evaluate(() => document.activeElement?.blur());
+    await page.mouse.move(0, 0);
+    await page.waitForTimeout(6500);
+    await expect(page.locator("#hero-slide-location")).toHaveText(selected);
+    await page.waitForTimeout(3700);
+    await expect(page.locator("#hero-slide-location")).not.toHaveText(selected);
+  });
+
+  test("visibility changes pause and resume the single autoplay timer", async ({
+    page,
+  }) => {
+    await openApp(page);
+    const initial = await page.locator("#hero-slide-location").textContent();
+    await page.evaluate(() => {
+      Object.defineProperty(document, "hidden", {
+        configurable: true,
+        value: true,
+      });
+      document.dispatchEvent(new Event("visibilitychange"));
+    });
+    await page.emulateMedia({ reducedMotion: "no-preference" });
+    await page.waitForTimeout(3500);
+    await expect(page.locator("#hero-slide-location")).toHaveText(initial);
+    await page.evaluate(() => {
+      Object.defineProperty(document, "hidden", {
+        configurable: true,
+        value: false,
+      });
+      document.dispatchEvent(new Event("visibilitychange"));
+    });
+    await page.waitForTimeout(3200);
+    await expect(page.locator("#hero-slide-location")).not.toHaveText(initial);
+  });
 });
 
 test.describe("account-bound features using an isolated Supabase mock", () => {
+  test("loads public destinations on pages without a travel-guide selector", async ({
+    page,
+  }) => {
+    await openApp(page, { supabase: true });
+    await expect(page.locator(".destination-card")).toHaveCount(12);
+    await expect(
+      page
+        .locator(".destination-card")
+        .filter({ has: page.getByRole("heading", { name: "Shillong" }) })
+        .locator("p"),
+    ).toHaveText("Test fixture for Shillong.");
+    await expect(page.locator("#app-notice")).toBeHidden();
+  });
+
+  test("shows a destination read error and retries without losing local fallback", async ({
+    page,
+  }) => {
+    await openApp(page, { supabase: true, destinationErrors: 1 });
+    await expect(page.locator(".destination-card")).toHaveCount(12);
+    const retry = page.getByRole("button", { name: "Retry destinations" });
+    await expect(retry).toBeVisible();
+    await expect(page.locator("#app-notice")).toContainText(
+      "bundled destination list remains available",
+    );
+    await retry.click();
+    await expect(page.locator("#app-notice")).toBeHidden();
+    await expect(page.locator(".destination-card")).toHaveCount(12);
+    await expect(page.locator("#app-notice")).toBeHidden();
+  });
+
   test("shows authentication errors and restores a user’s favorite", async ({
     page,
   }) => {
@@ -249,10 +365,13 @@ test.describe("account-bound features using an isolated Supabase mock", () => {
   }) => {
     await openApp(page, { supabase: true });
     await signInAs(page, "a");
+    await page.goto("/trips.html");
     await expect(page.locator(".saved-trip-card")).toHaveCount(1);
+    await page.goto("/planner.html");
     await page.locator('[data-preset="shillong"]').click();
     await page.locator("#save-itinerary").click();
     await page.locator(".itinerary-close-button").click();
+    await page.goto("/trips.html");
     const saved = page
       .locator(".saved-trip-card")
       .filter({ hasText: "Guwahati → Shillong → Dawki" });
@@ -305,5 +424,39 @@ test.describe("mobile responsive and accessible controls", () => {
     await expect(
       page.getByRole("searchbox", { name: "Search destinations" }),
     ).toBeVisible();
+  });
+
+  test("destination photos show a fallback and can be retried", async ({
+    page,
+  }) => {
+    let attempts = 0;
+    await page.route(
+      "**/assets/images/destinations/shillong-card.webp",
+      async (route) => {
+        attempts += 1;
+        if (attempts === 1) await route.abort();
+        else await route.continue();
+      },
+    );
+    await openApp(page);
+    const card = page.locator('.destination-card[data-destination="Shillong"]'),
+      image = card.locator(".destination-image img");
+    await expect(
+      card.getByRole("button", {
+        name: "Retry loading this destination photo",
+      }),
+    ).toBeVisible();
+    await expect(image).toHaveAttribute("src", /fallback\.svg$/);
+    await card
+      .getByRole("button", { name: "Retry loading this destination photo" })
+      .click();
+    await expect
+      .poll(() => image.evaluate((node) => node.naturalWidth))
+      .toBeGreaterThan(0);
+    await expect(
+      card.getByRole("button", {
+        name: "Retry loading this destination photo",
+      }),
+    ).toHaveCount(0);
   });
 });

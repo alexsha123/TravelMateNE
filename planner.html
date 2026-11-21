@@ -1,0 +1,578 @@
+<!doctype html>
+<html lang="en">
+  <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Plan an affordable North East India trip with realistic routes, transfer days, and itemized estimates." />
+  <meta name="theme-color" content="#163d32" />
+  <meta name="application-name" content="RoamNE" />
+  <script>
+    (() => {
+      try {
+        const stored = localStorage.getItem("roamne-appearance");
+        const preference = ["light", "dark"].includes(stored) ? stored : "auto";
+        const dark =
+          preference === "dark" ||
+          (preference === "auto" &&
+            window.matchMedia?.("(prefers-color-scheme: dark)").matches);
+        document.documentElement.dataset.themePreference = preference;
+        document.documentElement.dataset.theme = dark ? "dark" : "light";
+      } catch {
+        document.documentElement.dataset.themePreference = "auto";
+        document.documentElement.dataset.theme = window.matchMedia?.(
+          "(prefers-color-scheme: dark)",
+        ).matches
+          ? "dark"
+          : "light";
+      }
+    })();
+  </script>
+  <meta property="og:site_name" content="RoamNE" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Trip Planner — RoamNE" />
+  <meta
+    property="og:description"
+    content="Explore India's Gateway to Southeast Asia. Plan an affordable North East India trip with realistic routes, transfer days, and itemized estimates."
+  />
+  <meta property="og:url" content="https://travelmatene.vercel.app/planner.html" />
+  <meta
+    property="og:image"
+    content="https://travelmatene.vercel.app/assets/brand/roamne-social-preview.jpg"
+  />
+  <meta property="og:image:type" content="image/jpeg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta
+    property="og:image:alt"
+    content="RoamNE — Explore India's Gateway to Southeast Asia."
+  />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Trip Planner — RoamNE" />
+  <meta
+    name="twitter:description"
+    content="Explore India's Gateway to Southeast Asia. Plan an affordable North East India trip with realistic routes, transfer days, and itemized estimates."
+  />
+  <meta
+    name="twitter:image"
+    content="https://travelmatene.vercel.app/assets/brand/roamne-social-preview.jpg"
+  />
+  <title>Trip Planner — RoamNE</title>
+  <link rel="canonical" href="https://travelmatene.vercel.app/planner.html" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    rel="preload"
+    as="style"
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
+    onload="
+      this.onload = null;
+      this.rel = 'stylesheet';
+    "
+  />
+  <noscript
+    ><link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
+  /></noscript>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+  <body data-page="planner">
+    <header class="site-header">
+  <a
+    class="brand"
+    href="/"
+    aria-label="RoamNE — Explore India's Gateway to Southeast Asia"
+  >
+    <img
+      class="brand-mark"
+      src="/assets/brand/mark.svg"
+      width="40"
+      height="40"
+      alt=""
+    />
+    <span class="brand-lockup">
+      <span class="brand-name">Roam<span>NE</span></span>
+      <span class="brand-tagline"
+        >Explore India's Gateway to Southeast Asia.</span
+      >
+    </span>
+  </a>
+  <button
+    class="mobile-menu"
+    type="button"
+    aria-label="Open navigation"
+    aria-controls="main-nav"
+    aria-expanded="false"
+  >
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M4 7h16M4 12h16M4 17h16" />
+    </svg>
+  </button>
+  <nav class="main-nav" id="main-nav" aria-label="Main navigation">
+    <a class="nav-link" data-tab="explore" href="/">Explore</a>
+    <a class="nav-link active" data-tab="planner" href="/planner.html" aria-current="page">Plan a trip</a>
+    <a class="nav-link" data-tab="guide" href="/guide.html">Travel guide</a>
+    <a class="nav-link" data-tab="trips" href="/trips.html">My trips</a>
+    <a
+      class="nav-link account-nav-link"
+      data-tab="settings"
+      href="/settings.html"
+      >Account</a
+    >
+    <a class="header-cta" href="/planner.html"
+      >Plan your trip <span aria-hidden="true">→</span></a
+    >
+    <button class="auth-nav-button" id="auth-trigger" type="button">
+      Sign in
+    </button>
+    <label class="theme-control" for="appearance-select">
+      <span>Appearance</span>
+      <select id="appearance-select" aria-label="Appearance">
+        <option value="auto">Auto</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+      </select>
+    </label>
+  </nav>
+</header>
+
+    <main id="top" class="page-main"><div class="page-intro">
+  <span class="section-kicker">PLAN WITH A REALISTIC BUDGET</span>
+  <h1>Make a trip that fits <em>your life.</em></h1>
+  <p>
+    Build a practical day-by-day plan with travel time, transfers, and estimated
+    costs.
+  </p>
+</div>
+<section class="quick-plans" aria-label="Quick trip ideas">
+  <div class="quick-heading">
+    <span class="section-kicker">A LITTLE INSPIRATION</span>
+    <h2>Good trips start here.</h2>
+    <p>Pick a plan and make it your own.</p>
+  </div>
+  <button class="preset-card preset-shillong" data-preset="shillong">
+    <span class="preset-icon">↗</span
+    ><span class="preset-tag">WEEKEND ESCAPE · 3 DAYS</span
+    ><strong>Guwahati → Shillong → Dawki</strong
+    ><span class="preset-bottom"
+      ><span>Waterfalls, cafés & crystal rivers</span
+      ><b>Under ₹8,000 <span>→</span></b></span
+    >
+  </button>
+  <button class="preset-card preset-ziro" data-preset="ziro">
+    <span class="preset-icon">↗</span
+    ><span class="preset-tag">CULTURE TRAIL · 5 DAYS</span
+    ><strong>Find your rhythm in Ziro Valley</strong
+    ><span class="preset-bottom"
+      ><span>Apatani culture & pine-scented trails</span
+      ><b>Explore plan <span>→</span></b></span
+    >
+  </button>
+</section>
+<section class="planner-section" id="planner-section">
+  <div class="planner-intro">
+    <span class="section-kicker light-kicker">LESS GUESSWORK, MORE GOING</span>
+    <h2>A trip that fits<br />your <em>real life.</em></h2>
+    <p>
+      Set your budget, tell us what you love. We’ll map out a doable day-by-day
+      plan, with the costs to match.
+    </p>
+    <div class="planner-promise">
+      <span>✓</span> Practical routes & local cost estimates
+    </div>
+    <div class="planner-promise">
+      <span>✓</span> Permits and seasonal notes included
+    </div>
+    <div class="planner-promise">
+      <span>✓</span> Your plan, ready to print and go
+    </div>
+    <div class="leaf-decoration">✳</div>
+  </div>
+  <div class="planner-panel" id="planner">
+    <div class="planner-panel-head">
+      <div>
+        <span class="section-kicker">YOUR ADVENTURE STARTS HERE</span>
+        <h3>Build your trip</h3>
+      </div>
+      <span class="step-pill"><span class="step-dot"></span> 1 MIN SETUP</span>
+    </div>
+    <form id="planner-form">
+      <div class="form-grid">
+        <label class="form-field"
+          ><span>Starting hub</span
+          ><select id="hub-input">
+            <option>Guwahati</option>
+            <option>Bagdogra</option>
+            <option>Dibrugarh</option>
+            <option>Imphal</option>
+          </select></label
+        >
+        <label class="form-field"
+          ><span>Travel month</span
+          ><select id="month-input">
+            <option>January</option>
+            <option>February</option>
+            <option>March</option>
+            <option>April</option>
+            <option>May</option>
+            <option>June</option>
+            <option>July</option>
+            <option>August</option>
+            <option>September</option>
+            <option>October</option>
+            <option>November</option>
+            <option>December</option>
+          </select></label
+        >
+        <label class="form-field"
+          ><span>Trip duration</span
+          ><span class="input-suffix"
+            ><select id="duration-input">
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option selected>5</option>
+              <option>6</option>
+              <option>7</option>
+              <option>8</option>
+              <option>9</option>
+              <option>10</option></select
+            ><small>days</small></span
+          ></label
+        >
+        <label class="form-field"
+          ><span>Total budget (per person)</span
+          ><span class="input-prefix"
+            ><i>₹</i
+            ><input
+              id="budget-input"
+              type="number"
+              min="2500"
+              step="500"
+              value="12000" /></span
+        ></label>
+      </div>
+      <fieldset class="interest-field">
+        <legend>What are you in the mood for?</legend>
+        <div class="interest-options">
+          <label
+            ><input type="checkbox" value="Adventure" checked /><span
+              >⛰ Adventure</span
+            ></label
+          ><label
+            ><input type="checkbox" value="Culture" /><span
+              >◉ Culture</span
+            ></label
+          ><label
+            ><input type="checkbox" value="Wildlife" /><span
+              >❋ Wildlife</span
+            ></label
+          ><label
+            ><input type="checkbox" value="Food" /><span>♨ Food</span></label
+          ><label
+            ><input type="checkbox" value="Offbeat" /><span
+              >✦ Offbeat</span
+            ></label
+          >
+        </div>
+      </fieldset>
+      <button class="button button-primary generate-button" type="submit">
+        <span>✧</span> Generate my itinerary
+        <span class="button-arrow">→</span>
+      </button>
+      <p class="planner-footnote">
+        <span>◉</span> Rule-based price estimates · no live traffic, bookings or
+        AI model
+      </p>
+    </form>
+  </div>
+</section>
+
+<section class="map-shell" aria-labelledby="map-title">
+  <div class="map-shell-head">
+    <div>
+      <span class="section-kicker">A REGION TO WANDER</span>
+      <h3 id="map-title">See where the road takes you.</h3>
+    </div>
+    <span class="map-count"><i></i> 12 DESTINATIONS</span>
+  </div>
+  <div class="map-layout">
+    <div class="map-canvas-wrap">
+      <div
+        id="destination-map"
+        role="region"
+        aria-label="Map of twelve destinations across Northeast India"
+        aria-busy="true"
+      ></div>
+      <p class="map-loading" id="map-loading" role="status">
+        Map tiles load as this section comes into view. Destination cards remain
+        available below.
+      </p>
+    </div>
+    <aside class="map-route-card">
+      <span class="section-kicker">YOUR ITINERARY PATH</span>
+      <h4 id="map-route-title">Your trip will appear here.</h4>
+      <p id="map-route-note">
+        Build a plan to see its destination sequence. Dotted connectors show
+        order only, not driving routes.
+      </p>
+      <ol id="map-itinerary-sequence" class="map-sequence"></ol>
+      <span class="map-key"
+        ><i class="sequence-line"></i> Destination order · not a road
+        route</span
+      >
+    </aside>
+  </div>
+  <div class="map-footer">
+    <span
+      >Map tiles
+      <a href="https://openfreemap.org/" target="_blank" rel="noopener"
+        >OpenFreeMap</a
+      >
+      · ©
+      <a href="https://www.openmaptiles.org/" target="_blank" rel="noopener"
+        >OpenMapTiles</a
+      >
+      · data
+      <a
+        href="https://www.openstreetmap.org/copyright"
+        target="_blank"
+        rel="noopener"
+        >© OpenStreetMap</a
+      ></span
+    ><span>Typical locations · verify routes and road access locally</span>
+  </div>
+</section>
+
+</main>
+    <footer class="site-footer">
+  <a class="brand footer-brand" href="/" aria-label="RoamNE">
+    <img
+      class="brand-mark"
+      src="/assets/brand/mark.svg"
+      width="36"
+      height="36"
+      alt=""
+    />
+    <span class="brand-name">Roam<span>NE</span></span>
+  </a>
+  <p>Explore India's Gateway to Southeast Asia. © 2026 RoamNE</p>
+  <nav aria-label="Footer navigation">
+    <a href="/">Explore</a><a href="/planner.html">Plan</a
+    ><a href="/guide.html">Travel guide</a><a href="/trips.html">My trips</a>
+  </nav>
+</footer>
+<button
+  class="back-to-top"
+  id="back-to-top"
+  type="button"
+  aria-label="Back to top"
+  hidden
+>
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path d="m5 14 7-7 7 7M12 7v13" />
+  </svg>
+</button>
+ <section class="photo-credits" aria-labelledby="photo-credits-title">
+  <details>
+    <summary id="photo-credits-title">
+      Destination photography · credits & licenses
+    </summary>
+    <ul id="photo-credit-list" class="photo-credit-list"></ul>
+  </details>
+</section>
+ <div class="modal-backdrop" id="destination-modal" hidden>
+  <div
+    class="destination-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modal-title"
+    tabindex="-1"
+  >
+    <button class="modal-close" aria-label="Close destination details">
+      ×
+    </button>
+    <div id="modal-content"></div>
+  </div>
+</div>
+<div class="itinerary-overlay" id="itinerary-overlay" hidden>
+  <div
+    class="itinerary-sheet"
+    id="itinerary-sheet"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="itinerary-title"
+    tabindex="-1"
+  >
+    <button class="modal-close itinerary-close" aria-label="Close itinerary">
+      ×
+    </button>
+    <div id="itinerary-content"></div>
+  </div>
+</div>
+<div class="modal-backdrop auth-backdrop" id="auth-modal" hidden>
+  <section
+    class="auth-card"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="auth-title"
+    tabindex="-1"
+  >
+    <button class="modal-close auth-close" aria-label="Close sign in">×</button
+    ><span class="section-kicker">YOUR ROAMNE ACCOUNT</span>
+    <h2 id="auth-title">Welcome back.</h2>
+    <p class="auth-intro">
+      Sign in to keep your favourite places and trip plans together.
+    </p>
+    <div class="auth-mode-switch">
+      <button type="button" id="auth-login-mode" class="active">Sign in</button
+      ><button type="button" id="auth-signup-mode">Create account</button>
+    </div>
+    <form id="auth-form">
+      <label class="form-field auth-name-field" id="auth-name-wrap" hidden
+        ><span>Your name</span
+        ><input
+          id="auth-name"
+          type="text"
+          autocomplete="name"
+          maxlength="80" /></label
+      ><label class="form-field"
+        ><span>Email</span
+        ><input
+          id="auth-email"
+          type="email"
+          autocomplete="email"
+          required /></label
+      ><label class="form-field"
+        ><span>Password</span
+        ><input
+          id="auth-password"
+          type="password"
+          autocomplete="current-password"
+          minlength="8"
+          required
+      /></label>
+      <p
+        class="auth-message"
+        id="auth-message"
+        role="status"
+        aria-live="polite"
+      ></p>
+      <button
+        class="button button-primary auth-submit"
+        id="auth-submit"
+        type="submit"
+      >
+        Sign in
+      </button>
+    </form>
+    <div class="auth-divider" aria-hidden="true"><span>OR</span></div>
+    <button class="auth-google-button" id="auth-google" type="button">
+      <svg aria-hidden="true" viewBox="0 0 48 48">
+        <path
+          fill="#4285F4"
+          d="M43.6 24.5c0-1.4-.1-2.8-.4-4.1H24v7.8h11a9.4 9.4 0 0 1-4.1 6.2v5.1h6.6c3.9-3.6 6.1-8.9 6.1-15Z"
+        />
+        <path
+          fill="#34A853"
+          d="M24 44c5.5 0 10.1-1.8 13.5-4.8l-6.6-5.1c-1.8 1.2-4.1 2-6.9 2-5.3 0-9.8-3.6-11.4-8.4H5.8v5.3A20 20 0 0 0 24 44Z"
+        />
+        <path
+          fill="#FBBC05"
+          d="M12.6 27.7a12 12 0 0 1 0-7.4V15H5.8a20 20 0 0 0 0 18l6.8-5.3Z"
+        />
+        <path
+          fill="#EA4335"
+          d="M24 12.1c3 0 5.7 1 7.8 3.1l5.8-5.8C34.1 6.1 29.5 4 24 4A20 20 0 0 0 5.8 15l6.8 5.3c1.6-4.8 6.1-8.2 11.4-8.2Z"
+        /></svg
+      ><span>Continue with Google</span>
+    </button>
+    <p class="auth-security-note">
+      Your data is protected by your Supabase project’s existing row-level
+      security policies.
+    </p>
+  </section>
+</div>
+<div
+  class="modal-backdrop account-delete-backdrop"
+  id="delete-account-modal"
+  hidden
+>
+  <section
+    class="auth-card delete-account-card"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="delete-account-title"
+  >
+    <button
+      class="modal-close delete-account-close"
+      type="button"
+      aria-label="Close account deletion"
+    >
+      ×
+    </button>
+    <span class="section-kicker">ACCOUNT SETTINGS</span>
+    <h2 id="delete-account-title">Delete your account?</h2>
+    <p class="delete-account-warning">
+      This permanently deletes your RoamNE profile, favourites, saved
+      itineraries, and Supabase Auth account. This action cannot be undone.
+    </p>
+    <label class="form-field delete-account-field" for="delete-account-confirm"
+      ><span>Type DELETE to confirm</span
+      ><input
+        id="delete-account-confirm"
+        type="text"
+        autocomplete="off"
+        autocapitalize="characters"
+        spellcheck="false"
+    /></label>
+    <p
+      class="delete-account-message"
+      id="delete-account-message"
+      role="status"
+      aria-live="polite"
+    ></p>
+    <div class="delete-account-actions">
+      <button
+        class="button button-secondary"
+        id="delete-account-cancel"
+        type="button"
+      >
+        Keep my account</button
+      ><button
+        class="button delete-account-submit"
+        id="delete-account-submit"
+        type="button"
+        disabled
+      >
+        Delete My Account
+      </button>
+    </div>
+  </section>
+</div>
+ <div id="app-notice" class="app-notice" role="status" aria-live="polite" hidden>
+  <span class="notice-message" id="notice-message"></span>
+  <span class="notice-actions">
+    <button
+      class="notice-retry"
+      id="notice-retry"
+      type="button"
+      hidden
+    ></button>
+    <button
+      class="notice-dismiss"
+      id="notice-dismiss"
+      type="button"
+      aria-label="Dismiss message"
+    >
+      Dismiss
+    </button>
+  </span>
+</div>
+
+    <script src="supabase-config.js"></script>
+    <script type="module" src="app.js"></script>
+  </body>
+</html>

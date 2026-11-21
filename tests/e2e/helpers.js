@@ -110,7 +110,7 @@ export const mockDestinations = [
   details: {},
 }));
 
-export function installMockSupabase({ destinations }) {
+export function installMockSupabase({ destinations, destinationErrors = 0 }) {
   const fixtureUser = (id, email) => ({
     id,
     email,
@@ -126,7 +126,7 @@ export function installMockSupabase({ destinations }) {
       "traveler-b@example.test",
     ),
   };
-  const database = {
+  const initialDatabase = {
     destinations,
     profiles: [
       { id: "test-user-a", username: "traveler-a" },
@@ -163,7 +163,27 @@ export function installMockSupabase({ destinations }) {
       },
     ],
   };
-  const state = { user: null, database, requests: [], listeners: [] };
+  let storedDatabase;
+  let storedUserId = null;
+  try {
+    storedDatabase = JSON.parse(localStorage.getItem("travelMateTestDatabase"));
+    storedUserId = localStorage.getItem("travelMateTestUser");
+  } catch {
+    storedDatabase = null;
+  }
+  const database = storedDatabase || initialDatabase;
+  const state = {
+    user: Object.values(users).find((user) => user.id === storedUserId) || null,
+    database,
+    requests: [],
+    listeners: [],
+    destinationErrorsRemaining: Number(destinationErrors || 0),
+  };
+  const persist = () =>
+    localStorage.setItem(
+      "travelMateTestDatabase",
+      JSON.stringify(state.database),
+    );
   const session = () =>
     state.user
       ? {
@@ -226,6 +246,19 @@ export function installMockSupabase({ destinations }) {
         filters: [...this.filters],
         payload: this.payload,
       });
+      if (
+        this.table === "destinations" &&
+        state.destinationErrorsRemaining > 0
+      ) {
+        state.destinationErrorsRemaining -= 1;
+        return {
+          data: null,
+          error: {
+            message: "Simulated public destination read failure",
+            status: 503,
+          },
+        };
+      }
       if (privateTable(this.table) && !state.user)
         return { data: null, error: { message: "JWT required", status: 401 } };
       const rows = state.database[this.table] || [];
@@ -283,6 +316,7 @@ export function installMockSupabase({ destinations }) {
             else rows.push(row);
           }
         } else state.database[this.table].push(...inserted);
+        persist();
         return { data: inserted, error: null };
       }
       if (this.operation === "update") {
@@ -291,11 +325,13 @@ export function installMockSupabase({ destinations }) {
           Object.assign(row, this.payload);
           changed.push({ ...row });
         }
+        persist();
         return { data: changed, error: null };
       }
       if (this.operation === "delete") {
         const removed = rows.filter(matches);
         state.database[this.table] = rows.filter((row) => !matches(row));
+        persist();
         return { data: removed.map((row) => ({ ...row })), error: null };
       }
       return {
@@ -322,6 +358,7 @@ export function installMockSupabase({ destinations }) {
             error: { message: "Invalid login credentials" },
           };
         state.user = user;
+        localStorage.setItem("travelMateTestUser", user.id);
         const next = session();
         state.listeners.forEach((callback) => callback("SIGNED_IN", next));
         return { data: { user, session: next }, error: null };
@@ -331,6 +368,7 @@ export function installMockSupabase({ destinations }) {
       },
       async signOut() {
         state.user = null;
+        localStorage.removeItem("travelMateTestUser");
         state.listeners.forEach((callback) => callback("SIGNED_OUT", null));
         return { error: null };
       },
@@ -344,11 +382,16 @@ export function installMockSupabase({ destinations }) {
   window.supabase = { createClient: () => client };
 }
 
-export async function openApp(page, { supabase = false } = {}) {
+export async function openApp(
+  page,
+  { supabase = false, destinationErrors = 0, reducedMotion = "reduce" } = {},
+) {
+  await page.emulateMedia({ reducedMotion });
   await page.route("https://**/*", (route) => route.abort());
   if (supabase)
     await page.addInitScript(installMockSupabase, {
       destinations: mockDestinations,
+      destinationErrors,
     });
   await page.route("**/supabase-config.js", (route) =>
     route.fulfill({

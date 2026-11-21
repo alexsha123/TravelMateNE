@@ -1,0 +1,212 @@
+<section class="hero">
+  <div class="hero-copy">
+    <div class="eyebrow">
+      <span class="eyebrow-line"></span> YOUR NEXT GREAT ESCAPE
+    </div>
+    <h1>Find your kind<br />of <em>North East.</em></h1>
+    <p class="hero-description">
+      Explore India's Gateway to Southeast Asia. Discover a place that feels
+      like yours, then plan a trip around your budget.
+    </p>
+    <div class="hero-actions">
+      <button class="button button-primary" data-go-tab="explore">
+        Explore destinations <span>→</span>
+      </button>
+      <button class="text-button" data-go-tab="planner">
+        <span class="play-icon">▶</span> Plan a trip
+      </button>
+    </div>
+    <div class="hero-proof">
+      <div class="avatar-stack">
+        <span>🌿</span><span>🏔️</span><span>🛶</span>
+      </div>
+      <div>
+        <strong>8 remarkable states</strong
+        ><small>One unforgettable region</small>
+      </div>
+      <div class="proof-divider"></div>
+      <div>
+        <strong>From ₹1,200/day</strong><small>Realistic local budgets</small>
+      </div>
+    </div>
+  </div>
+  <div
+    class="hero-art"
+    id="hero-slideshow"
+    role="region"
+    aria-roledescription="carousel"
+    aria-label="North East destinations"
+  >
+    <div class="hero-slide-images" aria-hidden="true">
+      <img
+        id="hero-image-a"
+        class="hero-slide-image is-active"
+        src="/assets/images/destinations/shillong.webp"
+        srcset="
+          /assets/images/destinations/shillong-hero-mobile.webp  800w,
+          /assets/images/destinations/shillong.webp             1600w
+        "
+        sizes="(max-width: 650px) 100vw, 52vw"
+        alt=""
+        decoding="async"
+        fetchpriority="high"
+      />
+      <img id="hero-image-b" class="hero-slide-image" alt="" decoding="async" />
+    </div>
+    <div class="hero-image-shade" aria-hidden="true"></div>
+    <button
+      class="hero-slide-open"
+      id="hero-slide-open"
+      type="button"
+      aria-label="Open destination details"
+    ></button>
+    <div class="floating-note" aria-live="polite">
+      <span class="note-icon">✦</span>
+      <div>
+        <small>THE ROAD LESS TRAVELLED</small
+        ><strong id="hero-slide-quote"
+          >A little mist, a lot of character.</strong
+        >
+      </div>
+    </div>
+    <div class="image-caption">
+      <span class="caption-dot"></span
+      ><span class="caption-location" id="hero-slide-location"
+        >Shillong · Meghalaya</span
+      ><span class="hero-photo-credit" id="hero-slide-credit"></span>
+    </div>
+    <div class="hero-slide-controls" aria-label="Slideshow controls">
+      <button
+        class="hero-slide-arrow"
+        id="hero-slide-prev"
+        type="button"
+        aria-label="Previous destination"
+      >
+        ‹
+      </button>
+      <div
+        class="hero-slide-dots"
+        id="hero-slide-dots"
+        role="group"
+        aria-label="Choose a destination"
+      ></div>
+      <button
+        class="hero-slide-arrow"
+        id="hero-slide-next"
+        type="button"
+        aria-label="Next destination"
+      >
+        ›
+      </button>
+    </div>
+  </div>
+  <div class="hero-bottom">
+    <span>EXPLORE YOUR WAY</span>
+    <div></div>
+    <span>SCROLL TO DISCOVER <span class="down-arrow">↓</span></span>
+  </div>
+</section>
+<section class="quick-plans" aria-label="Quick trip ideas">
+  <div class="quick-heading">
+    <span class="section-kicker">A LITTLE INSPIRATION</span>
+    <h2>Good trips start here.</h2>
+    <p>Pick a plan and make it your own.</p>
+  </div>
+  <button class="preset-card preset-shillong" data-preset="shillong">
+    <span class="preset-icon">↗</span
+    ><span class="preset-tag">WEEKEND ESCAPE · 3 DAYS</span
+    ><strong>Guwahati → Shillong → Dawki</strong
+    ><span class="preset-bottom"
+      ><span>Waterfalls, cafés & crystal rivers</span
+      ><b>Under ₹8,000 <span>→</span></b></span
+    >
+  </button>
+  <button class="preset-card preset-ziro" data-preset="ziro">
+    <span class="preset-icon">↗</span
+    ><span class="preset-tag">CULTURE TRAIL · 5 DAYS</span
+    ><strong>Find your rhythm in Ziro Valley</strong
+    ><span class="preset-bottom"
+      ><span>Apatani culture & pine-scented trails</span
+      ><b>Explore plan <span>→</span></b></span
+    >
+  </button>
+</section>
+<section class="content-section" id="explore-section">
+  <div class="section-header">
+    <div>
+      <span class="section-kicker">THE NORTH EAST, YOUR WAY</span>
+      <h2>Places with a point of view.</h2>
+      <p>From cloud-kissed trails to slow river days, find what moves you.</p>
+    </div>
+    <button class="all-destinations" data-go-tab="explore">
+      Explore all places <span>↗</span>
+    </button>
+  </div>
+  <div class="filter-bar" id="explore-filters">
+    <label class="filter-search"
+      ><span aria-hidden="true">⌕</span
+      ><input
+        id="search-input"
+        type="search"
+        placeholder="Search a place or state"
+        aria-label="Search destinations"
+        maxlength="80"
+    /></label>
+    <label class="select-wrap"
+      ><span class="filter-label">STATE</span
+      ><select id="state-filter" aria-label="Filter by state">
+        <option value="all">All eight states</option></select
+      ><span class="select-chevron">⌄</span></label
+    >
+    <label class="select-wrap"
+      ><span class="filter-label">TRAVEL VIBE</span
+      ><select id="vibe-filter" aria-label="Filter by travel vibe">
+        <option value="all">Any kind of trip</option>
+        <option>Offbeat</option>
+        <option>Adventure</option>
+        <option>Culture</option>
+        <option>Wildlife</option>
+        <option>Budget</option>
+        <option>Food</option></select
+      ><span class="select-chevron">⌄</span></label
+    >
+    <label class="select-wrap"
+      ><span class="filter-label">BEST SEASON</span
+      ><select id="season-filter" aria-label="Filter by season">
+        <option value="all">Any season</option>
+        <option>Spring</option>
+        <option>Summer</option>
+        <option>Monsoon</option>
+        <option>Autumn</option>
+        <option>Winter</option></select
+      ><span class="select-chevron">⌄</span></label
+    >
+  </div>
+  <div class="active-filters">
+    <span id="result-count" aria-live="polite">Showing 12 destinations</span
+    ><button id="clear-filters" class="clear-filter">Clear filters</button>
+    <div class="filter-chips" id="filter-chips"></div>
+  </div>
+  {{MAP}}
+  <div class="destination-grid" id="destination-grid"></div>
+  <div class="empty-state" id="empty-state" hidden>
+    <span>⌕</span>
+    <h3>No places found</h3>
+    <p id="empty-detail" aria-live="polite">
+      Try a different state, vibe or season.
+    </p>
+    <button class="button button-outline" id="empty-clear">
+      Clear all filters
+    </button>
+  </div>
+</section>
+<section class="closing-banner">
+  <div>
+    <span class="section-kicker light-kicker">THE HILLS ARE CALLING</span>
+    <h2>Make room for wonder.</h2>
+    <p>Let’s find the trip you’ll be talking about for years.</p>
+  </div>
+  <button class="button button-light" data-go-tab="planner">
+    Plan my North East trip <span>→</span></button
+  ><span class="closing-flower">✳</span>
+</section>

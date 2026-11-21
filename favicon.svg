@@ -1,4 +1,26 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="16" fill="#173f33" />
-  <path d="M4 24 13 8l5 9 3-5 7 12H4Zm6 0 6-8 5 8" fill="none" stroke="#f3f1e7" stroke-linejoin="round" stroke-width="1.8" />
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 48 48"
+  role="img"
+  aria-labelledby="title"
+>
+  <title id="title">RoamNE</title>
+  <rect x="2" y="2" width="44" height="44" rx="14" fill="#173f33" />
+  <path d="M24 7.5 29 19l-5-2.2L19 19l5-11.5Z" fill="#dfbd77" />
+  <path
+    d="m8.5 32 9.4-11 6.1 6.2 7.5-9 8 13.8"
+    fill="none"
+    stroke="#fffefa"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2.4"
+  />
+  <path
+    d="M12 37h24M13 33.5c3.2-2 5.4-2.7 8.1-2.5 2.8.2 4.7 1.5 7.2 1.5 2.1 0 3.7-.6 6.1-2"
+    fill="none"
+    stroke="#dfbd77"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="1.8"
+  />
 </svg>

@@ -28,11 +28,13 @@ test.describe("mocked Supabase RLS boundary contract", () => {
         body: "window.TRAVELMATENE_SUPABASE={url:'http://untrusted.example',publishableKey:'sb_publishable_test_key'};",
       }),
     );
-    await page.goto("/index.html");
+    await page.goto("/trips.html");
     await expect(page.locator("#trips-message")).toContainText(
       "not safe for browser authentication",
     );
-    await expect(page.locator("#auth-trigger")).toContainText("Sign in");
+    await expect(page.locator("#auth-trigger")).toContainText(
+      "Login / Sign Up",
+    );
   });
 
   test("keeps all private tables owner-scoped for two accounts and denies anonymous reads", async ({

@@ -1,0 +1,153 @@
+<div class="page-intro">
+  <span class="section-kicker">PLAN WITH A REALISTIC BUDGET</span>
+  <h1>Make a trip that fits <em>your life.</em></h1>
+  <p>
+    Build a practical day-by-day plan with travel time, transfers, and estimated
+    costs.
+  </p>
+</div>
+<section class="quick-plans" aria-label="Quick trip ideas">
+  <div class="quick-heading">
+    <span class="section-kicker">A LITTLE INSPIRATION</span>
+    <h2>Good trips start here.</h2>
+    <p>Pick a plan and make it your own.</p>
+  </div>
+  <button class="preset-card preset-shillong" data-preset="shillong">
+    <span class="preset-icon">↗</span
+    ><span class="preset-tag">WEEKEND ESCAPE · 3 DAYS</span
+    ><strong>Guwahati → Shillong → Dawki</strong
+    ><span class="preset-bottom"
+      ><span>Waterfalls, cafés & crystal rivers</span
+      ><b>Under ₹8,000 <span>→</span></b></span
+    >
+  </button>
+  <button class="preset-card preset-ziro" data-preset="ziro">
+    <span class="preset-icon">↗</span
+    ><span class="preset-tag">CULTURE TRAIL · 5 DAYS</span
+    ><strong>Find your rhythm in Ziro Valley</strong
+    ><span class="preset-bottom"
+      ><span>Apatani culture & pine-scented trails</span
+      ><b>Explore plan <span>→</span></b></span
+    >
+  </button>
+</section>
+<section class="planner-section" id="planner-section">
+  <div class="planner-intro">
+    <span class="section-kicker light-kicker">LESS GUESSWORK, MORE GOING</span>
+    <h2>A trip that fits<br />your <em>real life.</em></h2>
+    <p>
+      Set your budget, tell us what you love. We’ll map out a doable day-by-day
+      plan, with the costs to match.
+    </p>
+    <div class="planner-promise">
+      <span>✓</span> Practical routes & local cost estimates
+    </div>
+    <div class="planner-promise">
+      <span>✓</span> Permits and seasonal notes included
+    </div>
+    <div class="planner-promise">
+      <span>✓</span> Your plan, ready to print and go
+    </div>
+    <div class="leaf-decoration">✳</div>
+  </div>
+  <div class="planner-panel" id="planner">
+    <div class="planner-panel-head">
+      <div>
+        <span class="section-kicker">YOUR ADVENTURE STARTS HERE</span>
+        <h3>Build your trip</h3>
+      </div>
+      <span class="step-pill"><span class="step-dot"></span> 1 MIN SETUP</span>
+    </div>
+    <form id="planner-form">
+      <div class="form-grid">
+        <label class="form-field"
+          ><span>Starting hub</span
+          ><select id="hub-input">
+            <option>Guwahati</option>
+            <option>Bagdogra</option>
+            <option>Dibrugarh</option>
+            <option>Imphal</option>
+          </select></label
+        >
+        <label class="form-field"
+          ><span>Travel month</span
+          ><select id="month-input">
+            <option>January</option>
+            <option>February</option>
+            <option>March</option>
+            <option>April</option>
+            <option>May</option>
+            <option>June</option>
+            <option>July</option>
+            <option>August</option>
+            <option>September</option>
+            <option>October</option>
+            <option>November</option>
+            <option>December</option>
+          </select></label
+        >
+        <label class="form-field"
+          ><span>Trip duration</span
+          ><span class="input-suffix"
+            ><select id="duration-input">
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option selected>5</option>
+              <option>6</option>
+              <option>7</option>
+              <option>8</option>
+              <option>9</option>
+              <option>10</option></select
+            ><small>days</small></span
+          ></label
+        >
+        <label class="form-field"
+          ><span>Total budget (per person)</span
+          ><span class="input-prefix"
+            ><i>₹</i
+            ><input
+              id="budget-input"
+              type="number"
+              min="2500"
+              step="500"
+              value="12000" /></span
+        ></label>
+      </div>
+      <fieldset class="interest-field">
+        <legend>What are you in the mood for?</legend>
+        <div class="interest-options">
+          <label
+            ><input type="checkbox" value="Adventure" checked /><span
+              >⛰ Adventure</span
+            ></label
+          ><label
+            ><input type="checkbox" value="Culture" /><span
+              >◉ Culture</span
+            ></label
+          ><label
+            ><input type="checkbox" value="Wildlife" /><span
+              >❋ Wildlife</span
+            ></label
+          ><label
+            ><input type="checkbox" value="Food" /><span>♨ Food</span></label
+          ><label
+            ><input type="checkbox" value="Offbeat" /><span
+              >✦ Offbeat</span
+            ></label
+          >
+        </div>
+      </fieldset>
+      <button class="button button-primary generate-button" type="submit">
+        <span>✧</span> Generate my itinerary
+        <span class="button-arrow">→</span>
+      </button>
+      <p class="planner-footnote">
+        <span>◉</span> Rule-based price estimates · no live traffic, bookings or
+        AI model
+      </p>
+    </form>
+  </div>
+</section>
+
+{{MAP}}

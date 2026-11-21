@@ -27,9 +27,8 @@ async function axeScan(page, label) {
 test.describe("axe accessibility checks", () => {
   test("desktop explorer and destination detail modal", async ({ page }) => {
     await openApp(page);
+    await expect(page.locator(".destination-card")).toHaveCount(12);
     await axeScan(page, "desktop explorer");
-    await page.locator(".destination-card").first().click();
-    await axeScan(page, "destination modal");
   });
 
   test("destination details manage focus and close with Escape", async ({
@@ -38,6 +37,7 @@ test.describe("axe accessibility checks", () => {
     await openApp(page);
     const card = page.locator(".destination-card").first();
     await card.click();
+    await axeScan(page, "destination modal");
     await expect(page.locator(".destination-modal .modal-close")).toBeFocused();
     await page.keyboard.press("Shift+Tab");
     await expect(page.locator(".destination-modal .modal-plan")).toBeFocused();
@@ -58,8 +58,19 @@ test.describe("axe accessibility checks", () => {
           .filter((entry) => /leaflet|maplibre/i.test(entry.name)).length,
     );
     expect(earlyMapRequests).toBe(0);
+    await expect(page.locator("#map-loading")).toBeVisible();
+    await expect(page.locator("#destination-map")).toHaveAttribute(
+      "aria-busy",
+      "true",
+    );
     await page.locator("#destination-map").scrollIntoViewIfNeeded();
     await expect(page.locator("#destination-map .map-fallback")).toBeVisible();
+    await expect(page.getByRole("button", { name: "Retry map" })).toBeVisible();
+    await expect(page.locator("#map-loading")).toBeHidden();
+    await expect(page.locator("#destination-map")).toHaveAttribute(
+      "aria-busy",
+      "false",
+    );
     await expect(page.locator(".destination-card")).toHaveCount(12);
   });
 
@@ -68,8 +79,21 @@ test.describe("axe accessibility checks", () => {
     await openApp(page);
     await axeScan(page, "mobile explorer");
     await page.locator(".mobile-menu").click();
+    await expect(page.locator(".main-nav")).toHaveCSS("opacity", "1");
     await axeScan(page, "mobile navigation");
     await page.locator('[data-tab="planner"]').click();
+    await expect(page).toHaveURL(/planner\.html$/);
     await axeScan(page, "mobile planner");
+  });
+
+  test("dark appearance remains readable and passes the WCAG axe scan", async ({
+    page,
+  }) => {
+    await openApp(page);
+    await page.locator("#appearance-select").selectOption("dark");
+    await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+    await axeScan(page, "dark explorer");
+    await page.locator("#search-input").fill("no destination");
+    await axeScan(page, "dark empty search results");
   });
 });

@@ -9,8 +9,8 @@
     "test:e2e": "playwright test",
     "test:all": "npm test && npm run test:e2e",
     "build": "node scripts/build-static.mjs",
-    "lint": "eslint app.js planner-rules.mjs scripts tests/e2e tests/unit *.config.js",
-    "format:check": "prettier --check eslint.config.js playwright.config.js vitest.config.js planner-rules.mjs scripts/build-static.mjs scripts/run-lighthouse.mjs tests/e2e tests/unit README.md docs/quality-audit.md",
+    "lint": "eslint app.js modules planner-rules.mjs scripts tests/e2e tests/unit *.config.js",
+    "format:check": "prettier --check app.js \"modules/**/*.js\" \"styles/**/*.css\" \"site/**/*.html\" \"scripts/**/*.mjs\" \"tests/e2e/**/*.js\" \"tests/unit/**/*.js\" *.config.js README.md docs/quality-audit.md && prettier --check --parser html assets/brand/*.svg favicon.svg",
     "test:a11y": "playwright test tests/e2e/accessibility.spec.js",
     "audit:lighthouse:desktop": "node scripts/run-lighthouse.mjs desktop",
     "audit:lighthouse:mobile": "node scripts/run-lighthouse.mjs mobile"

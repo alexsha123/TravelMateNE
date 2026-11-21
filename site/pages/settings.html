@@ -1,0 +1,48 @@
+<div class="page-intro">
+  <span class="section-kicker">YOUR ROAMNE ACCOUNT</span>
+  <h1>Account <em>settings.</em></h1>
+  <p>
+    Manage your signed-in profile and the data saved to your RoamNE account.
+  </p>
+</div>
+<section class="settings-panel" aria-labelledby="settings-profile-title">
+  <div class="settings-avatar" aria-hidden="true">R</div>
+  <div>
+    <span class="section-kicker">SIGNED-IN PROFILE</span>
+    <h2 id="settings-profile-title">Your account</h2>
+    <p id="settings-auth-state">
+      Sign in to see your account details and manage saved data.
+    </p>
+  </div>
+  <button
+    class="button button-secondary settings-signin"
+    data-open-auth
+    type="button"
+  >
+    Sign in
+  </button>
+</section>
+<section
+  class="account-settings settings-danger-zone"
+  id="account-settings"
+  aria-labelledby="account-settings-title"
+  hidden
+>
+  <div>
+    <span class="section-kicker">ACCOUNT SETTINGS</span>
+    <p id="account-settings-title">
+      Signed in as <strong id="account-email">Traveler</strong>
+    </p>
+  </div>
+  <button class="account-delete-link" id="delete-account-open" type="button">
+    Delete My Account
+  </button>
+</section>
+<section class="settings-privacy">
+  <h2>Your saved data</h2>
+  <p>
+    Favorites and itineraries are private to your signed-in account under the
+    project’s existing policies.
+  </p>
+  <a href="trips.html">View My Trips <span aria-hidden="true">→</span></a>
+</section>

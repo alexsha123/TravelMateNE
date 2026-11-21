@@ -1,0 +1,26 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 48 48"
+  role="img"
+  aria-labelledby="title"
+>
+  <title id="title">RoamNE compass and mountain-path mark</title>
+  <rect x="2" y="2" width="44" height="44" rx="14" fill="#fffefa" />
+  <path d="M24 7.5 29 19l-5-2.2L19 19l5-11.5Z" fill="#9e5037" />
+  <path
+    d="m8.5 32 9.4-11 6.1 6.2 7.5-9 8 13.8"
+    fill="none"
+    stroke="#173f33"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2.4"
+  />
+  <path
+    d="M12 37h24M13 33.5c3.2-2 5.4-2.7 8.1-2.5 2.8.2 4.7 1.5 7.2 1.5 2.1 0 3.7-.6 6.1-2"
+    fill="none"
+    stroke="#9e5037"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="1.8"
+  />
+</svg>

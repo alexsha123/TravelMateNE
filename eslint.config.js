@@ -14,7 +14,7 @@ export default [
   },
   js.configs.recommended,
   {
-    files: ["app.js", "planner-rules.mjs"],
+    files: ["app.js", "modules/**/*.js", "planner-rules.mjs"],
     languageOptions: {
       globals: { ...globals.browser, L: "readonly", maplibregl: "readonly" },
     },

@@ -1,17 +1,26 @@
-# TravelMateNE — North East Tourism Explorer
+# RoamNE — North East Tourism Explorer
 
-A responsive, client-side travel discovery and budget planning app for Northeast India.
+Explore India's Gateway to Southeast Asia. A responsive travel discovery and budget planning app for Northeast India.
 
 ## Run it
 
-Serve the folder over HTTP with any static server, then open the local address (for example, `python3 -m http.server 8000`). Local development needs no build step. Google Fonts, the map renderer, and Supabase JS load from the web. All twelve destination photographs are bundled locally as optimized WebP files.
+Build the site, then serve the generated `dist/` folder over HTTP:
+
+```sh
+npm run build
+python3 -m http.server 8174 --bind 127.0.0.1 --directory dist
+```
+
+Open `http://127.0.0.1:8174/index.html` (or `/` for Explore). The other pages are `/planner.html`, `/guide.html`, `/trips.html`, and `/settings.html`. Files in `site/pages/` are HTML content fragments used by the build, not standalone pages; do not open them directly or use `file://`. Google Fonts, the map renderer, and Supabase JS load from the web. All twelve destination photographs are bundled locally as optimized WebP files.
+
+The static pages are assembled from shared templates in `site/`. JavaScript modules separate the application bootstrap, auth/session helpers, destination data and filtering, route planning, saved-itinerary storage, slideshow behavior, and common UI utilities. CSS tokens, shared components, page composition, and accessibility overrides live in `styles/`.
 
 ## Connect the existing Supabase project
 
 1. Copy `supabase-config.example.js` to `supabase-config.js`. The real config file is ignored by git.
 2. Fill in `url` with the Supabase Project URL and `publishableKey` with a publishable key from the project dashboard. A publishable key is intended for browser use; never put an `sb_secret_` or `service_role` key in this file.
-3. Start a local HTTP server from this folder, such as `python3 -m http.server 8000`, and visit `http://localhost:8000`. Do not open the page with `file://`.
-4. Add the local URL to Supabase Auth's allowed redirect URLs if email confirmation is enabled (for example, `http://localhost:8000/**`).
+3. Run `npm run build`, then serve `dist/` with `python3 -m http.server 8174 --bind 127.0.0.1 --directory dist`. Visit `http://127.0.0.1:8174/index.html`; do not open template fragments with `file://`.
+4. Add the local URL to Supabase Auth's allowed redirect URLs if email confirmation is enabled (for example, `http://127.0.0.1:8174/**`).
 5. Review the existing RLS policies, then run `supabase/seed-destinations.sql` in the Supabase SQL Editor. The seed upserts the twelve destination rows and does not change the schema or disable RLS. If the rows are already seeded, run `supabase/update-destination-images.sql` in the SQL Editor to refresh image paths and JSONB image details; it updates existing rows only and performs no schema or policy changes.
 
 The seed matches the provided `public.destinations` schema exactly: unique `name`, `state`, `district`, `description`, `image_url`, `latitude`, `longitude`, `daily_budget`, `vibes` (text array), `seasons` (text array), and `details` (JSONB). The details document the long description, local image path, permit, network, ATM, transport, food, and etiquette fields. The script upserts on the unique destination name and does not change the schema.
@@ -43,9 +52,9 @@ Install the development dependencies with `npm install`. Run the JavaScript unit
 
 Coverage includes destination search and filters, navigation and destination details, planner route/cost totals and warnings, both trip presets, slideshow timing/manual controls/reduced motion, mobile layout and accessible controls, authentication error handling, favorites, saved plans, and account isolation. Supabase browser interactions use an in-memory test double with synthetic `example.test` identities and disposable rows; external HTTPS requests are blocked. The security tests check that test double's authenticated-owner behavior and unauthenticated rejection. They do not connect to Supabase/Postgres and are not proof that the deployed RLS policies are configured correctly; run the separate read-only `supabase/audit-rls.sql` against the intended project for policy inspection.
 
-The account-deletion UI and Edge Function are excluded from these suites and remain untested. The production build also strips the account-deletion UI, handlers, and styles from `dist/`; the local source and Edge Function remain available for later testing, but the build does not deploy the function. No real accounts or production data are used by the tests. Playwright artifacts are written under ignored `test-results/` and `playwright-report/` directories.
+The account-deletion UI and Edge Function are excluded from browser tests. Six Node tests cover only isolated cleanup helpers with mocked behavior; they do not call Supabase or delete accounts. The production build strips account-deletion UI, handlers, styles, and function files from `dist/`; the local source and Edge Function remain available for later end-to-end testing, but the build does not deploy the function. No real accounts or production data are used. Playwright artifacts are written under ignored `test-results/` and `playwright-report/` directories.
 
-Latest local verification: `npm run test:all` passed (3 Vitest unit tests and 21 Playwright browser tests). `npm run lint`, `npm run format:check`, and `npm run build` passed. Desktop and mobile Lighthouse plus axe-core results, security scope, before/after measurements, and remaining limitations are documented in [docs/quality-audit.md](docs/quality-audit.md). Live Supabase RLS enforcement, real map tile availability under all networks, and non-Chromium browsers remain outside this automated run.
+Latest local verification (November 22, 2026): `npm run test:all` passed 49 release tests (11 Vitest and 38 Playwright). Six isolated account-deletion helper tests are local-only and are not part of the release test command. `npm run lint`, `npm run format:check`, `npm run build`, and `git diff --check` passed; a serial `npm run test:a11y -- --workers=1` passed all 5 accessibility tests. Two Lighthouse 13.6 mobile runs measured performance 85–86, accessibility/Best Practices/SEO 100/100/100, simulated LCP 4.1–4.2s, TBT 10–20ms, and CLS 0.007. Transfer was 1,781 KiB across 38 requests. The preceding post-image runs measured performance 84–85, LCP 4.21–4.36s, and TBT 12–71ms; repeatable throttled browser runs measured median observed LCP improvement from 3.53s to 2.08s after reducing the 12 mobile hero image payloads by 29.6%. The live local map rendered all 12 markers at desktop and mobile widths and received 41 and 33 successful provider responses respectively; the desktop marker opened its destination detail panel. Read-only checks of both production hosts found a public publishable-format Supabase config and 12 readable destination rows; Vercel dashboard variables and Google OAuth still need manual confirmation. Detailed metrics and remaining limitations are in [docs/quality-audit.md](docs/quality-audit.md). Browser mocks do not prove production RLS enforcement, Google provider configuration, map availability on other networks, or behavior in non-Chromium browsers.
 
 ## Deploy to Vercel
 
@@ -58,3 +67,7 @@ This is still a static HTML/CSS/JavaScript site. `vercel.json` runs a small Node
 5. For Google OAuth, keep the Supabase project callback URL shown in Auth → Providers → Google registered in Google Cloud Console; Vercel does not replace that callback.
 
 For local static development, continue using the ignored `supabase-config.js` copied from `supabase-config.example.js`. The production build reads Vercel environment variables instead, so the ignored local file is not required in the GitHub repository.
+
+## Account deletion status
+
+Account deletion remains experimental in this local workspace. The source UI and Edge Function have not been verified end-to-end with a disposable account, and the deployed Edge Function was not audited during this pass. The production build therefore removes all account-deletion markup, handlers, styles, and deployment files from `dist/`. Do not deploy the local function until authentication, cleanup failure recovery, and owner isolation have been reviewed and tested safely. The existing RLS policies and schema were not changed. The local mocked cleanup test is `node --test tests/account-deletion/cleanup.test.mjs`; it does not call Supabase or delete accounts.

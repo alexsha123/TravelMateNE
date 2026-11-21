@@ -1,0 +1,58 @@
+<header class="site-header">
+  <a
+    class="brand"
+    href="/"
+    aria-label="RoamNE — Explore India's Gateway to Southeast Asia"
+  >
+    <img
+      class="brand-mark"
+      src="/assets/brand/mark.svg"
+      width="40"
+      height="40"
+      alt=""
+    />
+    <span class="brand-lockup">
+      <span class="brand-name">Roam<span>NE</span></span>
+      <span class="brand-tagline"
+        >Explore India's Gateway to Southeast Asia.</span
+      >
+    </span>
+  </a>
+  <button
+    class="mobile-menu"
+    type="button"
+    aria-label="Open navigation"
+    aria-controls="main-nav"
+    aria-expanded="false"
+  >
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M4 7h16M4 12h16M4 17h16" />
+    </svg>
+  </button>
+  <nav class="main-nav" id="main-nav" aria-label="Main navigation">
+    <a class="nav-link" data-tab="explore" href="/">Explore</a>
+    <a class="nav-link" data-tab="planner" href="/planner.html">Plan a trip</a>
+    <a class="nav-link" data-tab="guide" href="/guide.html">Travel guide</a>
+    <a class="nav-link" data-tab="trips" href="/trips.html">My trips</a>
+    <a
+      class="nav-link account-nav-link"
+      data-tab="settings"
+      href="/settings.html"
+      >Account</a
+    >
+    <a class="header-cta" href="/planner.html"
+      >Plan your trip <span aria-hidden="true">→</span></a
+    >
+    <button class="auth-nav-button" id="auth-trigger" type="button">
+      Sign in
+    </button>
+    <label class="theme-control" for="appearance-select">
+      <span>Appearance</span>
+      <select id="appearance-select" aria-label="Appearance">
+        <option value="auto">Auto</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+      </select>
+    </label>
+  </nav>
+</header>

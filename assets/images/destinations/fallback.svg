@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520" role="img" aria-label="TravelMateNE destination image unavailable">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520" role="img" aria-label="RoamNE destination image unavailable">
   <defs><linearGradient id="mist" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#dce7dd"/><stop offset="1" stop-color="#a9beb0"/></linearGradient></defs>
-  <rect width="800" height="520" fill="url(#mist)"/><circle cx="630" cy="125" r="48" fill="#e6d2a3" opacity=".8"/><path d="M0 366 194 178l130 138 123-174 353 270v108H0Z" fill="#789686"/><path d="m0 405 190-123 139 109 144-137 327 203v63H0Z" fill="#315d4a"/><path d="M0 465q180-56 370 0t430-3v58H0Z" fill="#173f33"/><text x="400" y="490" fill="#f8f7f2" font-family="Arial,sans-serif" font-size="18" text-anchor="middle">TravelMateNE · North East India</text>
+  <rect width="800" height="520" fill="url(#mist)"/><circle cx="630" cy="125" r="48" fill="#e6d2a3" opacity=".8"/><path d="M0 366 194 178l130 138 123-174 353 270v108H0Z" fill="#789686"/><path d="m0 405 190-123 139 109 144-137 327 203v63H0Z" fill="#315d4a"/><path d="M0 465q180-56 370 0t430-3v58H0Z" fill="#173f33"/><text x="400" y="490" fill="#f8f7f2" font-family="Arial,sans-serif" font-size="18" text-anchor="middle">RoamNE · North East India</text>
 </svg>
